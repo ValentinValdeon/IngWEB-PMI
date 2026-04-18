@@ -1,0 +1,281 @@
+=====================================================
+  CATÁLOGO DIGITAL MULTI-RUBRO — GUÍA DE INSTALACIÓN
+  Y PUESTA EN MARCHA
+=====================================================
+
+Requisitos previos
+------------------
+  - PHP >= 8.2
+  - Composer >= 2.x
+  - Node.js >= 20.x  (ya instalado)
+  - npm >= 10.x      (ya instalado)
+  - MySQL >= 8.x (servidor corriendo)
+
+  Verificar versiones instaladas:
+    php -v
+    composer -V
+    node -v
+    npm -v
+
+-------------------------------------------------------
+INSTALACIÓN DE PHP Y COMPOSER (Ubuntu/Debian)
+-------------------------------------------------------
+
+  Instalar PHP 8.2 con las extensiones necesarias para Laravel:
+    sudo apt update
+    sudo apt install -y php8.2 php8.2-cli php8.2-mbstring php8.2-xml \
+      php8.2-curl php8.2-zip php8.2-mysql php8.2-gd unzip
+
+  Verificar instalación:
+    php -v
+
+  Instalar Composer (gestor de paquetes PHP):
+    curl -sS https://getcomposer.org/installer | php
+    sudo mv composer.phar /usr/local/bin/composer
+
+  Verificar Composer:
+    composer -V
+
+  Instalar MySQL (si no está instalado):
+    sudo apt install -y mysql-server
+    sudo systemctl start mysql
+    sudo mysql_secure_installation
+
+-------------------------------------------------------
+INSTALACIÓN DE PHP Y COMPOSER (Windows)
+-------------------------------------------------------
+
+  1. Descargar e instalar XAMPP (incluye PHP y MySQL):
+       https://www.apachefriends.org/
+     O instalar PHP standalone:
+       https://windows.php.net/download/
+
+  2. Instalar Composer:
+       https://getcomposer.org/Composer-Setup.exe
+
+  3. Verificar en una terminal nueva:
+       php -v
+       composer -V
+
+=====================================================
+  BACKEND (Laravel)
+=====================================================
+
+Ubicación: /backend
+
+-------------------------------------------------------
+1. Instalar dependencias PHP
+-------------------------------------------------------
+
+  cd backend
+  composer install
+
+-------------------------------------------------------
+2. Configurar variables de entorno
+-------------------------------------------------------
+
+  Copiar el archivo de ejemplo:
+    cp .env.example .env
+
+  Editar el archivo .env con los datos de tu base de datos:
+
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=catalogo_multirubro    ← crear esta base de datos primero
+    DB_USERNAME=root                   ← tu usuario de MySQL
+    DB_PASSWORD=                       ← tu contraseña de MySQL
+
+    APP_URL=http://localhost:8000
+
+  También configurar el mail (para el envío de consultas):
+
+    MAIL_MAILER=smtp
+    MAIL_HOST=smtp.mailtrap.io         ← o tu servidor SMTP
+    MAIL_PORT=2525
+    MAIL_USERNAME=null
+    MAIL_PASSWORD=null
+    MAIL_FROM_ADDRESS="noreply@multirubros.com"
+    MAIL_FROM_NAME="Multi-Rubro"
+
+-------------------------------------------------------
+3. Crear la base de datos en MySQL
+-------------------------------------------------------
+
+  Desde la consola de MySQL:
+    CREATE DATABASE catalogo_multirubro CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-------------------------------------------------------
+4. Generar clave de la aplicación
+-------------------------------------------------------
+
+  php artisan key:generate
+
+-------------------------------------------------------
+5. Instalar paquetes adicionales
+-------------------------------------------------------
+
+  PDF (dompdf):
+    composer require barryvdh/laravel-dompdf
+
+-------------------------------------------------------
+6. Ejecutar migraciones y seeders
+-------------------------------------------------------
+
+  Crear las tablas:
+    php artisan migrate
+
+  Cargar datos iniciales (rubros y subrubros):
+    php artisan db:seed
+
+  O ambos en un solo comando:
+    php artisan migrate --seed
+
+-------------------------------------------------------
+7. Crear el enlace simbólico para imágenes públicas
+-------------------------------------------------------
+
+  php artisan storage:link
+
+  Esto permite acceder a las imágenes subidas desde:
+    http://localhost:8000/storage/productos/...
+
+-------------------------------------------------------
+8. Levantar el servidor de desarrollo
+-------------------------------------------------------
+
+  php artisan serve
+
+  El backend quedará corriendo en:
+    http://localhost:8000
+
+  La API estará disponible en:
+    http://localhost:8000/api/...
+
+  Dejar esta terminal abierta mientras se trabaja.
+
+=====================================================
+  FRONTEND (React + Vite)
+=====================================================
+
+Ubicación: /frontend
+
+  IMPORTANTE: Abrir una nueva terminal para el frontend.
+  El backend debe estar corriendo antes de usar el frontend.
+
+-------------------------------------------------------
+1. Instalar dependencias Node
+-------------------------------------------------------
+
+  cd frontend
+  npm install
+
+  Dependencias que se instalan automáticamente:
+    - react 19 + react-dom
+    - react-router-dom 7
+    - axios 1
+    - vite 8
+    - tailwindcss 3
+    - postcss + autoprefixer
+
+-------------------------------------------------------
+2. Levantar el servidor de desarrollo
+-------------------------------------------------------
+
+  npm run dev
+
+  El frontend quedará corriendo en:
+    http://localhost:5173
+
+  El proxy de Vite redirige automáticamente todas las
+  llamadas a /api/* hacia http://localhost:8000/api/*
+  por lo que no hace falta configurar nada extra.
+
+-------------------------------------------------------
+3. Compilar para producción (cuando sea necesario)
+-------------------------------------------------------
+
+  npm run build
+
+  Los archivos compilados quedan en:
+    frontend/dist/
+
+  Para previsualizar el build de producción localmente:
+    npm run preview
+
+=====================================================
+  URLS DEL PROYECTO EN DESARROLLO
+=====================================================
+
+  Catálogo público (clientes):
+    http://localhost:5173/
+
+  Panel de administración:
+    http://localhost:5173/admin
+
+  API REST (Laravel):
+    http://localhost:8000/api/
+
+  Endpoints disponibles:
+    GET    http://localhost:8000/api/rubros
+    GET    http://localhost:8000/api/productos
+    GET    http://localhost:8000/api/productos?rubro_id=1
+    GET    http://localhost:8000/api/productos?rubro_id=1&subrubro_id=3
+    POST   http://localhost:8000/api/productos
+    PUT    http://localhost:8000/api/productos/{id}
+    DELETE http://localhost:8000/api/productos/{id}
+    POST   http://localhost:8000/api/consulta
+    GET    http://localhost:8000/api/catalogo/pdf
+
+=====================================================
+  RESUMEN: ORDEN DE COMANDOS DESDE CERO
+=====================================================
+
+  Terminal 1 — Backend:
+  ─────────────────────
+    cd backend
+    composer install
+    cp .env.example .env
+    # (editar .env con datos de la DB)
+    php artisan key:generate
+    composer require barryvdh/laravel-dompdf
+    php artisan migrate --seed
+    php artisan storage:link
+    php artisan serve
+
+  Terminal 2 — Frontend:
+  ──────────────────────
+    cd frontend
+    npm install
+    npm run dev
+
+  Luego abrir en el navegador:
+    http://localhost:5173
+
+=====================================================
+  SOLUCIÓN DE PROBLEMAS FRECUENTES
+=====================================================
+
+  Error: "No application encryption key has been specified"
+    → Ejecutar: php artisan key:generate
+
+  Error: "SQLSTATE: Access denied" o "Connection refused"
+    → Verificar credenciales en .env (DB_USERNAME, DB_PASSWORD)
+    → Verificar que el servidor MySQL esté corriendo
+
+  Error: "Class not found" después de agregar clases
+    → Ejecutar: composer dump-autoload
+
+  Las imágenes no se muestran en el frontend
+    → Verificar que se ejecutó: php artisan storage:link
+    → Verificar que APP_URL en .env es http://localhost:8000
+
+  El frontend no conecta con la API (errores de red)
+    → Verificar que el backend esté corriendo en el puerto 8000
+    → Revisar vite.config.js, el proxy debe apuntar a http://localhost:8000
+
+  Error de CORS en el navegador
+    → En backend/config/cors.php verificar que 'allowed_origins'
+      incluya http://localhost:5173
+
+=====================================================
