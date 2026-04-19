@@ -1,37 +1,32 @@
 export default function FiltroRubros({ rubros, rubroSeleccionado, onSeleccionar }) {
   return (
-    <aside className="w-52 shrink-0">
-      <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">
-        Rubros
-      </h2>
-      <ul className="space-y-1">
-        <li>
+    <aside className="v-sidebar" style={{ height: '100%' }}>
+      <div style={{ padding: '1.25rem 0.75rem' }}>
+        <p className="v-eyebrow" style={{ padding: '0 0.25rem', marginBottom: '0.75rem' }}>
+          Categorías
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
           <button
+            className={`v-filter-item ${rubroSeleccionado === null ? 'active' : ''}`}
             onClick={() => onSeleccionar(null)}
-            className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-              rubroSeleccionado === null
-                ? 'bg-gray-900 text-white'
-                : 'text-gray-700 hover:bg-gray-100'
-            }`}
           >
-            Todos
+            <span>Todos los productos</span>
+            <span className="v-filter-dot" />
           </button>
-        </li>
-        {rubros.map((rubro) => (
-          <li key={rubro.id}>
+
+          {rubros.map(rubro => (
             <button
+              key={rubro.id}
+              className={`v-filter-item ${rubroSeleccionado === rubro.id ? 'active' : ''}`}
               onClick={() => onSeleccionar(rubro.id)}
-              className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                rubroSeleccionado === rubro.id
-                  ? 'bg-gray-900 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
             >
-              {rubro.nombre}
+              <span>{rubro.nombre}</span>
+              <span className="v-filter-dot" />
             </button>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      </div>
     </aside>
   )
 }

@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "nombre": "Electrónica",
+    "subrubros": [
+      { "id": 1, "nombre": "Celulares", "rubro_id": 1 },
+      { "id": 2, "nombre": "Computadoras", "rubro_id": 1 },
+      { "id": 3, "nombre": "Televisores", "rubro_id": 1 }
+    ]
+  },
+  {
+    "id": 2,
+    "nombre": "Ropa",
+    "subrubros": [
+      { "id": 4, "nombre": "Hombre", "rubro_id": 2 },
+      { "id": 5, "nombre": "Mujer", "rubro_id": 2 },
+      { "id": 6, "nombre": "Niños", "rubro_id": 2 }
+    ]
+  },
+  {
+    "id": 3,
+    "nombre": "Hogar",
+    "subrubros": [
+      { "id": 7, "nombre": "Muebles", "rubro_id": 3 },
+      { "id": 8, "nombre": "Electrodomésticos", "rubro_id": 3 },
+      { "id": 9, "nombre": "Decoración", "rubro_id": 3 }
+    ]
+  }
+]

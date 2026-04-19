@@ -1,27 +1,19 @@
 export default function FiltroSubrubros({ subrubros, seleccionado, onSeleccionar }) {
-  if (!subrubros.length) return null
+  if (!subrubros || subrubros.length === 0) return null
 
   return (
-    <div className="mb-6 flex flex-wrap gap-2">
+    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
       <button
+        className={`v-pill ${seleccionado === null ? 'active' : ''}`}
         onClick={() => onSeleccionar(null)}
-        className={`px-3 py-1 rounded-full text-sm border transition-colors ${
-          seleccionado === null
-            ? 'bg-gray-900 text-white border-gray-900'
-            : 'border-gray-300 text-gray-600 hover:bg-gray-50'
-        }`}
       >
         Todos
       </button>
-      {subrubros.map((s) => (
+      {subrubros.map(s => (
         <button
           key={s.id}
+          className={`v-pill ${seleccionado === s.id ? 'active' : ''}`}
           onClick={() => onSeleccionar(s.id)}
-          className={`px-3 py-1 rounded-full text-sm border transition-colors ${
-            seleccionado === s.id
-              ? 'bg-gray-900 text-white border-gray-900'
-              : 'border-gray-300 text-gray-600 hover:bg-gray-50'
-          }`}
         >
           {s.nombre}
         </button>

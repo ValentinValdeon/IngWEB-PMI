@@ -1,67 +1,108 @@
 export default function TablaProductos({ productos, onEditar, onEliminar }) {
-  if (!productos.length) {
+  if (productos.length === 0) {
     return (
-      <p className="text-sm text-gray-400 py-8 text-center">
-        No hay productos cargados aún.
-      </p>
+      <div style={{ padding: '3rem 2rem', textAlign: 'center' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+          No hay productos cargados aún.
+        </p>
+      </div>
     )
   }
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-gray-200">
-      <table className="w-full text-sm">
-        <thead className="bg-gray-50 text-gray-500 uppercase text-xs tracking-wide">
+    <div style={{ overflowX: 'auto' }}>
+      <table className="v-table">
+        <thead>
           <tr>
-            <th className="px-4 py-3 text-left">Imagen</th>
-            <th className="px-4 py-3 text-left">Título</th>
-            <th className="px-4 py-3 text-left">Rubro</th>
-            <th className="px-4 py-3 text-left">Subrubro</th>
-            <th className="px-4 py-3 text-right">Precio</th>
-            <th className="px-4 py-3 text-center">Acciones</th>
+            <th>Imagen</th>
+            <th>Título</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th style={{ textAlign: 'right' }}>Acciones</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-100">
-          {productos.map((p) => (
-            <tr key={p.id} className="hover:bg-gray-50 transition-colors">
-              <td className="px-4 py-3">
-                {p.imagen_path ? (
-                  <img
-                    src={`/storage/${p.imagen_path}`}
-                    alt={p.titulo}
-                    className="w-12 h-12 object-cover rounded-lg"
-                  />
-                ) : (
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-300">
-                    📦
+        <tbody>
+          {productos.map(p => {
+            const titulo = p.titulo || p.nombre || '—'
+            const imagenUrl = p.imagen_path ? `/storage/${p.imagen_path}` : null
+            const precio = new Intl.NumberFormat('es-AR', {
+              style: 'currency',
+              currency: 'ARS',
+              minimumFractionDigits: 0,
+            }).format(p.precio)
+
+            return (
+              <tr key={p.id}>
+                <td>
+                  {imagenUrl ? (
+                    <img
+                      src={imagenUrl}
+                      alt={titulo}
+                      style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '8px', border: '1px solid var(--border)' }}
+                    />
+                  ) : (
+                    <div style={{
+                      width: '40px', height: '40px',
+                      background: 'var(--bg)',
+                      border: '1px solid var(--border)',
+                      borderRadius: '8px',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--text-muted)" strokeWidth="1.25">
+                        <rect x="2" y="2" width="12" height="12" rx="2"/>
+                        <circle cx="5.5" cy="5.5" r="1"/>
+                        <path d="M14 10l-3.5-3.5L6 11"/>
+                      </svg>
+                    </div>
+                  )}
+                </td>
+                <td>
+                  <div style={{ fontWeight: 500, color: 'var(--text)' }}>{titulo}</div>
+                  {p.descripcion && (
+                    <div style={{
+                      fontSize: '0.78rem',
+                      color: 'var(--text-muted)',
+                      marginTop: '0.15rem',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      maxWidth: '220px',
+                    }}>
+                      {p.descripcion}
+                    </div>
+                  )}
+                </td>
+                <td>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                    {p.rubro && <span className="v-badge" style={{ width: 'fit-content' }}>{p.rubro.nombre}</span>}
+                    {p.subrubro && (
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                        {p.subrubro.nombre}
+                      </span>
+                    )}
                   </div>
-                )}
-              </td>
-              <td className="px-4 py-3 font-medium text-gray-900">{p.titulo}</td>
-              <td className="px-4 py-3 text-gray-600">{p.rubro?.nombre ?? '-'}</td>
-              <td className="px-4 py-3 text-gray-600">{p.subrubro?.nombre ?? '-'}</td>
-              <td className="px-4 py-3 text-right text-gray-900 font-medium">
-                ${Number(p.precio).toLocaleString('es-AR')}
-              </td>
-              <td className="px-4 py-3">
-                <div className="flex gap-2 justify-center">
-                  <button
-                    onClick={() => onEditar(p)}
-                    className="text-xs px-2.5 py-1 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
-                  >
-                    Editar
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (confirm(`¿Eliminar "${p.titulo}"?`)) onEliminar(p.id)
-                    }}
-                    className="text-xs px-2.5 py-1 border border-red-200 text-red-600 rounded-md hover:bg-red-50 transition-colors"
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
+                </td>
+                <td>
+                  <span className="v-price" style={{ fontSize: '1rem' }}>{precio}</span>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                    <button className="btn-edit-soft" onClick={() => onEditar(p)}>
+                      Editar
+                    </button>
+                    <button
+                      className="btn-danger-soft"
+                      onClick={() => {
+                        if (window.confirm(`¿Eliminar "${titulo}"?`)) onEliminar(p.id)
+                      }}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>

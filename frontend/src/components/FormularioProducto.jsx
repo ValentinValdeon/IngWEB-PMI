@@ -1,181 +1,159 @@
 import { useState, useEffect } from 'react'
 
-const FORM_VACIO = {
-  titulo: '',
-  rubro_id: '',
-  subrubro_id: '',
-  descripcion: '',
-  precio: '',
-  imagen: null,
-}
+export default function FormularioProducto({ rubros, onGuardar, productoEditar, onCancelarEdicion, inModal = false }) {
+  const esEdicion = !!productoEditar
 
-export default function FormularioProducto({ rubros, onGuardar, productoEditar, onCancelarEdicion }) {
-  const [form, setForm] = useState(FORM_VACIO)
-  const [subrubros, setSubrubros] = useState([])
-  const [guardando, setGuardando] = useState(false)
-  const [error, setError] = useState(null)
+  const empty = { titulo: '', descripcion: '', precio: '', rubro_id: '', subrubro_id: '', imagen: null }
+  const [form, setForm] = useState(empty)
 
-  // Cargar datos si estamos editando
   useEffect(() => {
     if (productoEditar) {
       setForm({
-        titulo: productoEditar.titulo ?? '',
-        rubro_id: productoEditar.rubro_id ?? '',
-        subrubro_id: productoEditar.subrubro_id ?? '',
-        descripcion: productoEditar.descripcion ?? '',
-        precio: productoEditar.precio ?? '',
+        titulo: productoEditar.titulo || productoEditar.nombre || '',
+        descripcion: productoEditar.descripcion || '',
+        precio: productoEditar.precio || '',
+        rubro_id: productoEditar.rubro_id || '',
+        subrubro_id: productoEditar.subrubro_id || '',
         imagen: null,
       })
     } else {
-      setForm(FORM_VACIO)
+      setForm(empty)
     }
   }, [productoEditar])
 
-  // Actualizar subrubros al cambiar rubro
-  useEffect(() => {
-    const rubro = rubros.find((r) => r.id === Number(form.rubro_id))
-    setSubrubros(rubro?.subrubros ?? [])
-    if (!productoEditar) setForm((f) => ({ ...f, subrubro_id: '' }))
-  }, [form.rubro_id, rubros])
+  const rubroActivo = rubros.find(r => r.id === Number(form.rubro_id))
+  const subrubros = rubroActivo?.subrubros || []
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     const { name, value, files } = e.target
-    setForm((prev) => ({ ...prev, [name]: files ? files[0] : value }))
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setGuardando(true)
-    setError(null)
-
-    const data = new FormData()
-    Object.entries(form).forEach(([k, v]) => {
-      if (v !== null && v !== '') data.append(k, v)
-    })
-
-    try {
-      await onGuardar(data, productoEditar?.id)
-      setForm(FORM_VACIO)
-    } catch {
-      setError('Error al guardar el producto.')
-    } finally {
-      setGuardando(false)
+    if (name === 'imagen') {
+      setForm(f => ({ ...f, imagen: files[0] }))
+    } else if (name === 'rubro_id') {
+      setForm(f => ({ ...f, rubro_id: value, subrubro_id: '' }))
+    } else {
+      setForm(f => ({ ...f, [name]: value }))
     }
   }
 
+  function handleSubmit(e) {
+    e.preventDefault()
+    const fd = new FormData()
+    fd.append('titulo', form.titulo)
+    fd.append('descripcion', form.descripcion)
+    fd.append('precio', form.precio)
+    fd.append('rubro_id', form.rubro_id)
+    fd.append('subrubro_id', form.subrubro_id)
+    if (form.imagen) fd.append('imagen', form.imagen)
+    onGuardar(fd, esEdicion ? productoEditar.id : undefined)
+    if (!esEdicion) setForm(empty)
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
-      <h2 className="text-base font-semibold text-gray-900">
-        {productoEditar ? 'Editar producto' : 'Nuevo producto'}
-      </h2>
-
-      {/* Imagen */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Imagen</label>
-        <input
-          type="file"
-          name="imagen"
-          accept="image/*"
-          onChange={handleChange}
-          required={!productoEditar}
-          className="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-sm file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
-        />
+    <div className={inModal ? '' : 'v-panel'}>
+      {/* Header — solo cuando NO está en modal (el modal tiene su propio header) */}
+      {!inModal && (
+      <div style={{
+        padding: '1.25rem 1.25rem 1rem',
+        borderBottom: '1px solid var(--border)',
+        background: esEdicion ? 'var(--emerald-light)' : 'var(--bg-white)',
+      }}>
+        <p className="v-eyebrow" style={{ marginBottom: '0.25rem' }}>
+          {esEdicion ? 'Editando' : 'Nuevo producto'}
+        </p>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text)' }}>
+          {esEdicion
+            ? (productoEditar.titulo || productoEditar.nombre || 'Producto')
+            : 'Agregar al catálogo'}
+        </h2>
       </div>
-
-      {/* Título */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Título</label>
-        <input
-          name="titulo"
-          value={form.titulo}
-          onChange={handleChange}
-          required
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
-        />
-      </div>
-
-      {/* Rubro */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Rubro</label>
-        <select
-          name="rubro_id"
-          value={form.rubro_id}
-          onChange={handleChange}
-          required
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white"
-        >
-          <option value="">Seleccioná un rubro</option>
-          {rubros.map((r) => (
-            <option key={r.id} value={r.id}>{r.nombre}</option>
-          ))}
-        </select>
-      </div>
-
-      {/* Subrubro */}
-      {subrubros.length > 0 && (
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Subrubro</label>
-          <select
-            name="subrubro_id"
-            value={form.subrubro_id}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white"
-          >
-            <option value="">Sin subrubro</option>
-            {subrubros.map((s) => (
-              <option key={s.id} value={s.id}>{s.nombre}</option>
-            ))}
-          </select>
-        </div>
       )}
 
-      {/* Descripción */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-        <textarea
-          name="descripcion"
-          value={form.descripcion}
-          onChange={handleChange}
-          rows={3}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 resize-none"
-        />
-      </div>
+      {/* Form */}
+      <form onSubmit={handleSubmit} style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
 
-      {/* Precio */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Precio ($)</label>
-        <input
-          name="precio"
-          type="number"
-          min="0"
-          step="0.01"
-          value={form.precio}
-          onChange={handleChange}
-          required
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
-        />
-      </div>
+        <div>
+          <label className="v-label">Imagen{!esEdicion && <span style={{ color: '#DC2626' }}> *</span>}</label>
+          <input
+            type="file"
+            name="imagen"
+            accept="image/*"
+            onChange={handleChange}
+            required={!esEdicion}
+            className="v-input"
+            style={{ cursor: 'pointer', fontSize: '0.8rem', padding: '0.5rem 0.75rem' }}
+          />
+        </div>
 
-      {error && <p className="text-sm text-red-500">{error}</p>}
+        <div>
+          <label className="v-label">Título <span style={{ color: '#DC2626' }}>*</span></label>
+          <input
+            className="v-input"
+            type="text"
+            name="titulo"
+            value={form.titulo}
+            onChange={handleChange}
+            placeholder="Nombre del producto"
+            required
+          />
+        </div>
 
-      <div className="flex gap-3">
-        <button
-          type="submit"
-          disabled={guardando}
-          className="flex-1 bg-gray-900 text-white rounded-lg py-2 text-sm hover:bg-gray-700 transition-colors disabled:opacity-50"
-        >
-          {guardando ? 'Guardando...' : productoEditar ? 'Guardar cambios' : 'Agregar producto'}
-        </button>
-        {productoEditar && (
-          <button
-            type="button"
-            onClick={onCancelarEdicion}
-            className="px-4 text-sm border border-gray-300 rounded-lg hover:bg-gray-50"
-          >
-            Cancelar
-          </button>
+        <div>
+          <label className="v-label">Rubro <span style={{ color: '#DC2626' }}>*</span></label>
+          <select className="v-input" name="rubro_id" value={form.rubro_id} onChange={handleChange} required>
+            <option value="">Seleccionar rubro</option>
+            {rubros.map(r => <option key={r.id} value={r.id}>{r.nombre}</option>)}
+          </select>
+        </div>
+
+        {subrubros.length > 0 && (
+          <div>
+            <label className="v-label">Subrubro</label>
+            <select className="v-input" name="subrubro_id" value={form.subrubro_id} onChange={handleChange}>
+              <option value="">Seleccionar subrubro</option>
+              {subrubros.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
+            </select>
+          </div>
         )}
-      </div>
-    </form>
+
+        <div>
+          <label className="v-label">Descripción</label>
+          <textarea
+            className="v-input"
+            name="descripcion"
+            value={form.descripcion}
+            onChange={handleChange}
+            placeholder="Descripción del producto..."
+            rows={3}
+            style={{ resize: 'vertical' }}
+          />
+        </div>
+
+        <div>
+          <label className="v-label">Precio (ARS) <span style={{ color: '#DC2626' }}>*</span></label>
+          <input
+            className="v-input"
+            type="number"
+            name="precio"
+            value={form.precio}
+            onChange={handleChange}
+            placeholder="0.00"
+            step="0.01"
+            min="0"
+            required
+          />
+        </div>
+
+        <div style={{ display: 'flex', gap: '0.75rem', paddingTop: '0.25rem' }}>
+          <button type="submit" className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>
+            {esEdicion ? 'Guardar cambios' : 'Agregar producto'}
+          </button>
+          {esEdicion && (
+            <button type="button" className="btn-outline" onClick={onCancelarEdicion}>
+              Cancelar
+            </button>
+          )}
+        </div>
+      </form>
+    </div>
   )
 }

@@ -8,6 +8,8 @@ import {
   descargarPdf,
 } from '../api'
 
+
+
 export default function useProductos() {
   const [rubros, setRubros] = useState([])
   const [productos, setProductos] = useState([])
@@ -16,11 +18,15 @@ export default function useProductos() {
   const [cargando, setCargando] = useState(false)
   const [error, setError] = useState(null)
 
-  // Cargar rubros al montar
-  useEffect(() => {
+  const recargarRubros = useCallback(() => {
     getRubros()
       .then((res) => setRubros(res.data.data ?? res.data))
       .catch(() => setError('No se pudieron cargar los rubros.'))
+  }, [])
+
+  // Cargar rubros al montar
+  useEffect(() => {
+    recargarRubros()
   }, [])
 
   // Cargar productos cuando cambian los filtros
@@ -90,5 +96,6 @@ export default function useProductos() {
     actualizar,
     eliminar,
     bajarPdf,
+    recargarRubros,
   }
 }
