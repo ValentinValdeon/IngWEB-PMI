@@ -1,9 +1,11 @@
 import FormularioProducto from './FormularioProducto'
+import styles from './ModalFormProducto.module.css'
+import btnStyles from '../shared/buttons.module.css'
 
 export default function ModalFormProducto({ rubros, onGuardar, productoEditar, onCerrar }) {
   return (
     <div
-      className="v-overlay"
+      className={styles.overlay}
       onClick={e => e.target === e.currentTarget && onCerrar()}
     >
       <div style={{
@@ -17,7 +19,7 @@ export default function ModalFormProducto({ rubros, onGuardar, productoEditar, o
         maxHeight: '90vh',
         overflowY: 'auto',
       }}>
-        <div style={{ height: '4px', background: 'var(--emerald)' }} />
+        <div style={{ height: '4px', background: 'var(--accent)' }} />
 
         {/* Header */}
         <div style={{
@@ -26,10 +28,10 @@ export default function ModalFormProducto({ rubros, onGuardar, productoEditar, o
           justifyContent: 'space-between',
           padding: '1.1rem 1.25rem 0.75rem',
           borderBottom: '1px solid var(--border)',
-          background: productoEditar ? 'var(--emerald-light)' : 'var(--bg-white)',
+          background: productoEditar ? 'var(--accent-light)' : 'var(--bg-white)',
         }}>
           <div>
-            <p className="v-eyebrow" style={{ marginBottom: '0.15rem' }}>
+            <p className={styles.eyebrow} style={{ marginBottom: '0.15rem' }}>
               {productoEditar ? 'Editar producto' : 'Nuevo producto'}
             </p>
             <h2 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text)', margin: 0 }}>

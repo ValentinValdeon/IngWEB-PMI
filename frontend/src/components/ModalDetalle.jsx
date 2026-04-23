@@ -1,8 +1,12 @@
 import { useState } from 'react'
+import styles from './ModalDetalle.module.css'
+import btnStyles from '../shared/buttons.module.css'
 
 export default function ModalDetalle({ producto, onCerrar, onConsultar }) {
   const titulo = producto.titulo || producto.nombre || 'Sin título'
-  const imagenUrl = producto.imagen_path ? `/storage/${producto.imagen_path}` : null
+  const imagenUrl = producto.imagen_path
+    ? (producto.imagen_path.startsWith('http') ? producto.imagen_path : `/storage/${producto.imagen_path}`)
+    : null
   const [imgError, setImgError] = useState(false)
 
   const precio = new Intl.NumberFormat('es-AR', {
@@ -13,7 +17,7 @@ export default function ModalDetalle({ producto, onCerrar, onConsultar }) {
 
   return (
     <div
-      className="v-overlay"
+      className={styles.overlay}
       onClick={e => e.target === e.currentTarget && onCerrar()}
     >
       <div style={{
@@ -30,7 +34,7 @@ export default function ModalDetalle({ producto, onCerrar, onConsultar }) {
       }}>
 
         {/* Emerald top bar */}
-        <div style={{ height: '4px', background: 'var(--emerald)', flexShrink: 0 }} />
+        <div style={{ height: '4px', background: 'var(--accent)', flexShrink: 0 }} />
 
         {/* Close button row */}
         <div style={{
@@ -129,17 +133,19 @@ export default function ModalDetalle({ producto, onCerrar, onConsultar }) {
             {/* Badges */}
             <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
               {producto.rubro && (
-                <span className="v-badge">{producto.rubro.nombre}</span>
+                <span className={styles.badge}>{producto.rubro.nombre}</span>
               )}
               {producto.subrubro && (
                 <span style={{
                   display: 'inline-block',
-                  padding: '0.2rem 0.65rem',
-                  borderRadius: '99px',
-                  fontSize: '0.72rem',
+                  padding: '0.15rem 0.55rem',
+                  borderRadius: '2px',
+                  fontSize: '0.68rem',
                   fontWeight: 500,
-                  background: 'var(--bg)',
-                  color: 'var(--text-secondary)',
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  background: 'transparent',
+                  color: 'var(--text-muted)',
                   border: '1px solid var(--border)',
                 }}>
                   {producto.subrubro.nombre}
@@ -149,11 +155,12 @@ export default function ModalDetalle({ producto, onCerrar, onConsultar }) {
 
             {/* Title */}
             <h2 style={{
-              fontSize: '1.5rem',
-              fontWeight: 700,
+              fontSize: '1.75rem',
+              fontWeight: 600,
+              fontFamily: 'var(--font-display)',
               color: 'var(--text)',
-              lineHeight: 1.25,
-              letterSpacing: '-0.02em',
+              lineHeight: 1.2,
+              letterSpacing: '0.01em',
               margin: 0,
             }}>
               {titulo}
@@ -161,17 +168,17 @@ export default function ModalDetalle({ producto, onCerrar, onConsultar }) {
 
             {/* Price */}
             <div style={{
-              background: 'var(--emerald-light)',
+              background: 'var(--accent-light)',
               borderRadius: 'var(--radius-md)',
               padding: '0.85rem 1.1rem',
               display: 'flex',
               alignItems: 'center',
               gap: '0.5rem',
             }}>
-              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--emerald)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Precio
               </span>
-              <span className="v-price" style={{ fontSize: '1.6rem', marginLeft: 'auto' }}>
+              <span className={styles.price} style={{ fontSize: '1.6rem', marginLeft: 'auto' }}>
                 {precio}
               </span>
             </div>
@@ -242,14 +249,14 @@ export default function ModalDetalle({ producto, onCerrar, onConsultar }) {
             {/* CTA */}
             <div style={{ display: 'flex', gap: '0.75rem', marginTop: 'auto', paddingTop: '0.5rem' }}>
               <button
-                className="btn-primary"
+                className={btnStyles.btnPrimary}
                 style={{ flex: 1, justifyContent: 'center' }}
                 onClick={() => { onCerrar(); onConsultar(producto) }}
               >
                 Consultar precio
               </button>
               <button
-                className="btn-outline"
+                className={btnStyles.btnOutline}
                 onClick={onCerrar}
               >
                 Cerrar

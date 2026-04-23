@@ -1,0 +1,49 @@
+/* ── Tabla Productos ────────────────────────────────────── */
+.panel {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  border-bottom: 1.5px solid var(--border);
+  background: var(--bg);
+}
+.table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+.table tbody tr:hover td { background: var(--bg); }
+.table tbody tr:last-child td { border-bottom: none; }
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 99px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  background: var(--accent-light);
+  color: var(--accent-dark);
+}
+
+.price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+}

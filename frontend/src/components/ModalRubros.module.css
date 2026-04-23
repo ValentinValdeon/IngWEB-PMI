@@ -1,0 +1,54 @@
+/* ── Modal Rubros ───────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: v-fadeIn 0.2s ease;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.input {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--text);
+  background: var(--bg-white);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(26, 122, 94, 0.1);
+}
+.input::placeholder { color: var(--text-muted); }
+
+.skeleton {
+  background: var(--border);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+  animation: v-shimmer 1.6s infinite;
+}

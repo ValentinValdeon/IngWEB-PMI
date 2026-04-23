@@ -1,0 +1,22 @@
+/* ── Catalogo Page ──────────────────────────────────────── */
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  font-family: var(--font-display);
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.skeleton {
+  background: var(--border);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,248,235,0.7) 50%, transparent 100%);
+  animation: v-shimmer 1.6s infinite;
+}

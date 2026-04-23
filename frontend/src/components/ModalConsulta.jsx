@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { enviarConsulta } from '../api/index'
+import styles from './ModalConsulta.module.css'
+import btnStyles from '../shared/buttons.module.css'
 
 export default function ModalConsulta({ producto, onCerrar }) {
   const titulo = producto.titulo || producto.nombre || 'este producto'
@@ -33,11 +35,11 @@ export default function ModalConsulta({ producto, onCerrar }) {
   }
 
   return (
-    <div className="v-overlay" onClick={e => e.target === e.currentTarget && onCerrar()}>
-      <div className="v-modal">
+    <div className={styles.overlay} onClick={e => e.target === e.currentTarget && onCerrar()}>
+      <div className={styles.modal}>
 
         {/* Emerald top bar */}
-        <div style={{ height: '4px', background: 'var(--emerald)' }} />
+        <div style={{ height: '4px', background: 'var(--accent)' }} />
 
         {/* Header */}
         <div style={{
@@ -48,7 +50,7 @@ export default function ModalConsulta({ producto, onCerrar }) {
           alignItems: 'flex-start',
         }}>
           <div>
-            <p className="v-eyebrow" style={{ marginBottom: '0.2rem' }}>Consultar producto</p>
+            <p className={styles.eyebrow} style={{ marginBottom: '0.2rem' }}>Consultar producto</p>
             <h2 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text)', lineHeight: 1.3 }}>
               {titulo}
             </h2>
@@ -91,11 +93,11 @@ export default function ModalConsulta({ producto, onCerrar }) {
             }}>
               <div style={{
                 width: '52px', height: '52px',
-                background: 'var(--emerald-light)',
+                background: 'var(--accent-light)',
                 borderRadius: '50%',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--emerald)" strokeWidth="2" strokeLinecap="round">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round">
                   <path d="M4 11l5 5L18 6"/>
                 </svg>
               </div>
@@ -105,16 +107,16 @@ export default function ModalConsulta({ producto, onCerrar }) {
                   Te contactaremos a la brevedad.
                 </p>
               </div>
-              <button className="btn-outline" onClick={onCerrar} style={{ marginTop: '0.5rem' }}>
+              <button className={btnStyles.btnOutline} onClick={onCerrar} style={{ marginTop: '0.5rem' }}>
                 Cerrar
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div>
-                <label className="v-label">Tu nombre</label>
+                <label className={styles.label}>Tu nombre</label>
                 <input
-                  className="v-input"
+                  className={styles.input}
                   type="text"
                   name="nombre"
                   value={form.nombre}
@@ -124,9 +126,9 @@ export default function ModalConsulta({ producto, onCerrar }) {
                 />
               </div>
               <div>
-                <label className="v-label">Email</label>
+                <label className={styles.label}>Email</label>
                 <input
-                  className="v-input"
+                  className={styles.input}
                   type="email"
                   name="email"
                   value={form.email}
@@ -136,9 +138,9 @@ export default function ModalConsulta({ producto, onCerrar }) {
                 />
               </div>
               <div>
-                <label className="v-label">Mensaje</label>
+                <label className={styles.label}>Mensaje</label>
                 <textarea
-                  className="v-input"
+                  className={styles.input}
                   name="mensaje"
                   value={form.mensaje}
                   onChange={handleChange}
@@ -162,7 +164,7 @@ export default function ModalConsulta({ producto, onCerrar }) {
 
               <button
                 type="submit"
-                className="btn-primary"
+                className={btnStyles.btnPrimary}
                 disabled={enviando}
                 style={{ width: '100%', justifyContent: 'center', marginTop: '0.25rem' }}
               >

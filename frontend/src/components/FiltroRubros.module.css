@@ -1,0 +1,67 @@
+/* ── Sidebar / FiltroRubros ─────────────────────────────── */
+.sidebar {
+  background: linear-gradient(180deg, var(--sidebar-bg) 0%, var(--sidebar-bg2) 100%);
+  border-right: 1px solid rgba(200,152,42,0.2);
+  height: 100%;
+}
+
+.filterItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--sidebar-text-dim);
+  border-radius: var(--radius-sm);
+  transition: background 0.15s, color 0.15s;
+  text-align: left;
+  letter-spacing: 0.02em;
+}
+.filterItem:hover {
+  background: rgba(200,152,42,0.08);
+  color: var(--sidebar-text);
+}
+.filterItem.active {
+  background: var(--sidebar-active);
+  color: #F0E2C0;
+  font-weight: 500;
+  border-left: 2px solid var(--sidebar-dot);
+  padding-left: calc(1rem - 2px);
+}
+.filterItem.active .filterDot {
+  background: var(--sidebar-dot);
+}
+.filterItem:focus-visible {
+  outline: 2px solid var(--sidebar-dot);
+  outline-offset: 2px;
+}
+
+.filterDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: transparent;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(200,152,42,0.15);
+  margin: 0.5rem 1rem;
+}
+
+.eyebrow {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sidebar-dot);
+  opacity: 0.8;
+}

@@ -6,6 +6,7 @@ import ProductoCard from '../components/ProductoCard'
 import ModalConsulta from '../components/ModalConsulta'
 import ModalDetalle from '../components/ModalDetalle'
 import useProductos from '../hooks/useProductos'
+import styles from './Catalogo.module.css'
 
 export default function Catalogo() {
   const {
@@ -15,6 +16,7 @@ export default function Catalogo() {
     rubroSeleccionado,
     subrubroSeleccionado,
     cargando,
+    error,
     seleccionarRubro,
     seleccionarSubrubro,
     bajarPdf,
@@ -26,12 +28,11 @@ export default function Catalogo() {
   const rubroActivo = rubros.find(r => r.id === rubroSeleccionado)
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', flexDirection: 'column' }}>
       <Navbar onDescargarPdf={bajarPdf} />
 
-      <div style={{ display: 'flex', maxWidth: '1400px', margin: '0 auto' }}>
-
-        {/* Sidebar */}
+      <div style={{ display: 'flex', flex: 1 }}>
+        {/* Sidebar — pegado al borde izquierdo, debajo del header */}
         <div style={{
           width: '220px',
           flexShrink: 0,
@@ -39,6 +40,7 @@ export default function Catalogo() {
           top: '64px',
           height: 'calc(100vh - 64px)',
           overflowY: 'auto',
+          alignSelf: 'flex-start',
         }}>
           <FiltroRubros
             rubros={rubros}
@@ -52,7 +54,7 @@ export default function Catalogo() {
 
           {/* Page header */}
           <div style={{ marginBottom: '1.5rem' }}>
-            <h1 className="v-section-title" style={{ marginBottom: '0.25rem' }}>
+            <h1 className={styles.sectionTitle} style={{ marginBottom: '0.25rem' }}>
               {rubroActivo ? rubroActivo.nombre : 'Catálogo completo'}
             </h1>
             <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
@@ -74,15 +76,40 @@ export default function Catalogo() {
             </div>
           )}
 
+          {/* Error */}
+          {error && (
+            <div
+              role="alert"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                background: '#FEF2F2',
+                border: '1px solid #FECACA',
+                borderRadius: 'var(--radius-md)',
+                padding: '0.9rem 1.1rem',
+                marginBottom: '1.5rem',
+                fontSize: '0.875rem',
+                color: '#DC2626',
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden="true" style={{ flexShrink: 0 }}>
+                <circle cx="9" cy="9" r="7"/>
+                <path d="M9 6v3.5M9 12.5v.5"/>
+              </svg>
+              {error}
+            </div>
+          )}
+
           {/* Skeletons */}
           {cargando && (
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
               gap: '1.25rem',
             }}>
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="v-skeleton" style={{ aspectRatio: '3/4', borderRadius: '16px' }} />
+                <div key={i} className={styles.skeleton} style={{ aspectRatio: '3/4', borderRadius: '16px' }} />
               ))}
             </div>
           )}
@@ -102,11 +129,11 @@ export default function Catalogo() {
             }}>
               <div style={{
                 width: '56px', height: '56px',
-                background: 'var(--emerald-light)',
+                background: 'var(--accent-light)',
                 borderRadius: '16px',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" strokeWidth="1.75" strokeLinecap="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.75" strokeLinecap="round">
                   <path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/>
                   <path d="M12 12h.01"/>
                 </svg>
@@ -122,7 +149,7 @@ export default function Catalogo() {
           {!cargando && productos.length > 0 && (
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
               gap: '1.25rem',
             }}>
               {productos.map((producto, i) => (

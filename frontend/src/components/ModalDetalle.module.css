@@ -1,0 +1,44 @@
+/* ── Modal Detalle ──────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: v-fadeIn 0.2s ease;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 2px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--accent-light);
+  color: var(--accent-dark);
+  border: 1px solid var(--accent-mid);
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-style: italic;
+  font-family: var(--font-display);
+  color: var(--accent-dark);
+  letter-spacing: -0.01em;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}

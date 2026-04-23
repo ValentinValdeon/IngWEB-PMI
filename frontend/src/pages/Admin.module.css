@@ -1,0 +1,106 @@
+/* ── Admin Page ─────────────────────────────────────────── */
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.panel {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.skeleton {
+  background: var(--border);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+  animation: v-shimmer 1.6s infinite;
+}
+
+/* ── Filter bar ──────────────────────────────────────────── */
+.filterBar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.45rem 0.75rem 0.45rem 2rem;
+  font-size: 0.825rem;
+  font-family: var(--font-body);
+  background: var(--bg-white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.searchInput::placeholder { color: var(--text-muted); }
+.searchInput:focus { border-color: var(--accent); }
+
+.filterSelect {
+  padding: 0.45rem 0.65rem;
+  font-size: 0.825rem;
+  font-family: var(--font-body);
+  background: var(--bg-white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.filterSelect:focus { border-color: var(--accent); }
+
+.clearBtn {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.78rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  background: transparent;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.clearBtn:hover { border-color: var(--accent); color: var(--accent); }
+
+.resultCount {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  margin-left: auto;
+}
+

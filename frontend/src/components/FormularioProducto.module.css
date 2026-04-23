@@ -1,0 +1,43 @@
+/* ── Formulario Producto ────────────────────────────────── */
+.panel {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.input {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--text);
+  background: var(--bg-white);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(26, 122, 94, 0.1);
+}
+.input::placeholder { color: var(--text-muted); }
+.input option { background: #fff; }
+
+.label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}

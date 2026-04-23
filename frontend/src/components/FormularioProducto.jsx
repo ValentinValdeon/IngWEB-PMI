@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import styles from './FormularioProducto.module.css'
+import btnStyles from '../shared/buttons.module.css'
 
 export default function FormularioProducto({ rubros, onGuardar, productoEditar, onCancelarEdicion, inModal = false }) {
   const esEdicion = !!productoEditar
@@ -49,15 +51,15 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
   }
 
   return (
-    <div className={inModal ? '' : 'v-panel'}>
+    <div className={inModal ? '' : styles.panel}>
       {/* Header — solo cuando NO está en modal (el modal tiene su propio header) */}
       {!inModal && (
       <div style={{
         padding: '1.25rem 1.25rem 1rem',
         borderBottom: '1px solid var(--border)',
-        background: esEdicion ? 'var(--emerald-light)' : 'var(--bg-white)',
+        background: esEdicion ? 'var(--accent-light)' : 'var(--bg-white)',
       }}>
-        <p className="v-eyebrow" style={{ marginBottom: '0.25rem' }}>
+        <p className={styles.eyebrow} style={{ marginBottom: '0.25rem' }}>
           {esEdicion ? 'Editando' : 'Nuevo producto'}
         </p>
         <h2 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text)' }}>
@@ -72,22 +74,22 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
       <form onSubmit={handleSubmit} style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
 
         <div>
-          <label className="v-label">Imagen{!esEdicion && <span style={{ color: '#DC2626' }}> *</span>}</label>
+          <label className={styles.label}>Imagen{!esEdicion && <span style={{ color: '#DC2626' }}> *</span>}</label>
           <input
             type="file"
             name="imagen"
             accept="image/*"
             onChange={handleChange}
             required={!esEdicion}
-            className="v-input"
+            className={styles.input}
             style={{ cursor: 'pointer', fontSize: '0.8rem', padding: '0.5rem 0.75rem' }}
           />
         </div>
 
         <div>
-          <label className="v-label">Título <span style={{ color: '#DC2626' }}>*</span></label>
+          <label className={styles.label}>Título <span style={{ color: '#DC2626' }}>*</span></label>
           <input
-            className="v-input"
+            className={styles.input}
             type="text"
             name="titulo"
             value={form.titulo}
@@ -98,8 +100,8 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
         </div>
 
         <div>
-          <label className="v-label">Rubro <span style={{ color: '#DC2626' }}>*</span></label>
-          <select className="v-input" name="rubro_id" value={form.rubro_id} onChange={handleChange} required>
+          <label className={styles.label}>Rubro <span style={{ color: '#DC2626' }}>*</span></label>
+          <select className={styles.input} name="rubro_id" value={form.rubro_id} onChange={handleChange} required>
             <option value="">Seleccionar rubro</option>
             {rubros.map(r => <option key={r.id} value={r.id}>{r.nombre}</option>)}
           </select>
@@ -107,8 +109,8 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
 
         {subrubros.length > 0 && (
           <div>
-            <label className="v-label">Subrubro</label>
-            <select className="v-input" name="subrubro_id" value={form.subrubro_id} onChange={handleChange}>
+            <label className={styles.label}>Subrubro</label>
+            <select className={styles.input} name="subrubro_id" value={form.subrubro_id} onChange={handleChange}>
               <option value="">Seleccionar subrubro</option>
               {subrubros.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
             </select>
@@ -116,9 +118,9 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
         )}
 
         <div>
-          <label className="v-label">Descripción</label>
+          <label className={styles.label}>Descripción</label>
           <textarea
-            className="v-input"
+            className={styles.input}
             name="descripcion"
             value={form.descripcion}
             onChange={handleChange}
@@ -129,9 +131,9 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
         </div>
 
         <div>
-          <label className="v-label">Precio (ARS) <span style={{ color: '#DC2626' }}>*</span></label>
+          <label className={styles.label}>Precio (ARS) <span style={{ color: '#DC2626' }}>*</span></label>
           <input
-            className="v-input"
+            className={styles.input}
             type="number"
             name="precio"
             value={form.precio}
@@ -144,11 +146,11 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
         </div>
 
         <div style={{ display: 'flex', gap: '0.75rem', paddingTop: '0.25rem' }}>
-          <button type="submit" className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>
+          <button type="submit" className={btnStyles.btnPrimary} style={{ flex: 1, justifyContent: 'center' }}>
             {esEdicion ? 'Guardar cambios' : 'Agregar producto'}
           </button>
           {esEdicion && (
-            <button type="button" className="btn-outline" onClick={onCancelarEdicion}>
+            <button type="button" className={btnStyles.btnOutline} onClick={onCancelarEdicion}>
               Cancelar
             </button>
           )}

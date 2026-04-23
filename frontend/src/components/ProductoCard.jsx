@@ -1,6 +1,11 @@
+import styles from './ProductoCard.module.css'
+import btnStyles from '../shared/buttons.module.css'
+
 export default function ProductoCard({ producto, onConsultar, onVerDetalle, index = 0 }) {
   const titulo = producto.titulo || producto.nombre || 'Sin título'
-  const imagenUrl = producto.imagen_path ? `/storage/${producto.imagen_path}` : null
+  const imagenUrl = producto.imagen_path
+    ? (producto.imagen_path.startsWith('http') ? producto.imagen_path : `/storage/${producto.imagen_path}`)
+    : null
 
   const precio = new Intl.NumberFormat('es-AR', {
     style: 'currency',
@@ -10,7 +15,7 @@ export default function ProductoCard({ producto, onConsultar, onVerDetalle, inde
 
   return (
     <article
-      className="v-card v-fade-up"
+      className={`${styles.card} ${styles.fadeUp}`}
       style={{ animationDelay: `${index * 50}ms`, display: 'flex', flexDirection: 'column' }}
     >
       {/* Image */}
@@ -27,13 +32,16 @@ export default function ProductoCard({ producto, onConsultar, onVerDetalle, inde
           <img src={imagenUrl} alt={titulo} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem' }}>
-            <div style={{
-              width: '52px', height: '52px',
-              background: 'var(--border)',
-              borderRadius: '12px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1.5" strokeLinecap="round">
+            <div
+              role="img"
+              aria-label="Sin imagen disponible"
+              style={{
+                width: '52px', height: '52px',
+                background: 'var(--border)',
+                borderRadius: '12px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
                 <rect x="3" y="3" width="18" height="18" rx="3"/>
                 <circle cx="8.5" cy="8.5" r="1.5"/>
                 <path d="M21 15l-5-5L5 21"/>
@@ -49,17 +57,19 @@ export default function ProductoCard({ producto, onConsultar, onVerDetalle, inde
         {/* Badges */}
         <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '0.6rem', flexWrap: 'wrap' }}>
           {producto.rubro && (
-            <span className="v-badge">{producto.rubro.nombre}</span>
+            <span className={styles.badge}>{producto.rubro.nombre}</span>
           )}
           {producto.subrubro && (
             <span style={{
               display: 'inline-block',
-              padding: '0.2rem 0.65rem',
-              borderRadius: '99px',
-              fontSize: '0.72rem',
+              padding: '0.15rem 0.55rem',
+              borderRadius: '2px',
+              fontSize: '0.68rem',
               fontWeight: 500,
-              background: 'var(--bg)',
-              color: 'var(--text-secondary)',
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              background: 'transparent',
+              color: 'var(--text-muted)',
               border: '1px solid var(--border)',
             }}>
               {producto.subrubro.nombre}
@@ -69,11 +79,12 @@ export default function ProductoCard({ producto, onConsultar, onVerDetalle, inde
 
         {/* Title */}
         <h3 style={{
-          fontSize: '0.975rem',
+          fontSize: '1.2rem',
           fontWeight: 600,
+          fontFamily: 'var(--font-display)',
           color: 'var(--text)',
           marginBottom: '0.4rem',
-          lineHeight: 1.35,
+          lineHeight: 1.3,
         }}>
           {titulo}
         </h3>
@@ -96,12 +107,13 @@ export default function ProductoCard({ producto, onConsultar, onVerDetalle, inde
         {/* Price + CTAs */}
         <div style={{ marginTop: 'auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-            <span className="v-price">{precio}</span>
+            <span className={styles.price}>{precio}</span>
           </div>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button
-              className="btn-outline"
+              className={btnStyles.btnOutline}
               onClick={() => onVerDetalle(producto)}
+              aria-label={`Ver detalle de ${titulo}`}
               style={{ flex: 1, padding: '0.5rem 0.6rem', fontSize: '0.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem' }}
             >
               <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
@@ -111,8 +123,9 @@ export default function ProductoCard({ producto, onConsultar, onVerDetalle, inde
               Ver detalle
             </button>
             <button
-              className="btn-primary"
+              className={btnStyles.btnPrimary}
               onClick={() => onConsultar(producto)}
+              aria-label={`Consultar sobre ${titulo}`}
               style={{ flex: 1, padding: '0.5rem 0.6rem', fontSize: '0.8rem', justifyContent: 'center' }}
             >
               Consultar

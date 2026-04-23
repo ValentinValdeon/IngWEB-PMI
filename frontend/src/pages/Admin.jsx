@@ -3,6 +3,8 @@ import useProductos from '../hooks/useProductos'
 import TablaProductos from '../components/TablaProductos'
 import ModalFormProducto from '../components/ModalFormProducto'
 import ModalRubros from '../components/ModalRubros'
+import styles from './Admin.module.css'
+import btnStyles from '../shared/buttons.module.css'
 
 export default function Admin() {
   const { rubros, productos, cargando, crear, actualizar, eliminar, recargarRubros } = useProductos()
@@ -10,6 +12,30 @@ export default function Admin() {
   const [modalProducto, setModalProducto] = useState(false)
   const [productoEditar, setProductoEditar] = useState(null)
   const [modalRubros, setModalRubros] = useState(false)
+
+  // Filters
+  const [busqueda, setBusqueda] = useState('')
+  const [rubroFiltro, setRubroFiltro] = useState('')
+  const [subrubroFiltro, setSubrubroFiltro] = useState('')
+
+  const subrubrosDisponibles = rubroFiltro
+    ? (rubros.find(r => String(r.id) === rubroFiltro)?.subrubros || [])
+    : []
+
+  function handleRubroFiltro(val) {
+    setRubroFiltro(val)
+    setSubrubroFiltro('')
+  }
+
+  const productosFiltrados = productos.filter(p => {
+    const texto = busqueda.toLowerCase()
+    const coincideTexto = !busqueda ||
+      (p.titulo || p.nombre || '').toLowerCase().includes(texto) ||
+      (p.descripcion || '').toLowerCase().includes(texto)
+    const coincideRubro = !rubroFiltro || String(p.rubro?.id) === rubroFiltro
+    const coincideSubrubro = !subrubroFiltro || String(p.subrubro?.id) === subrubroFiltro
+    return coincideTexto && coincideRubro && coincideSubrubro
+  })
 
   function abrirNuevo() {
     setProductoEditar(null)
@@ -56,7 +82,7 @@ export default function Admin() {
             <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <div style={{
                 width: '28px', height: '28px',
-                background: 'var(--emerald)',
+                background: 'var(--accent)',
                 borderRadius: '7px',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 flexShrink: 0,
@@ -73,13 +99,13 @@ export default function Admin() {
               </span>
             </a>
             <span style={{ color: 'var(--border-strong)', fontSize: '1rem' }}>/</span>
-            <span className="v-eyebrow">Administración</span>
+            <span className={styles.eyebrow}>Administración</span>
           </div>
 
           {/* Right: action buttons */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <button
-              className="btn-outline"
+              className={btnStyles.btnOutline}
               onClick={() => setModalRubros(true)}
               style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.5rem 0.9rem', fontSize: '0.825rem' }}
             >
@@ -93,7 +119,7 @@ export default function Admin() {
             </button>
 
             <button
-              className="btn-primary"
+              className={btnStyles.btnPrimary}
               onClick={abrirNuevo}
               style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.5rem 1rem' }}
             >
@@ -107,7 +133,7 @@ export default function Admin() {
 
             <a
               href="/"
-              className="btn-outline"
+              className={btnStyles.btnOutline}
               style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.35rem', padding: '0.5rem 0.9rem', fontSize: '0.825rem' }}
             >
               <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
@@ -166,7 +192,7 @@ export default function Admin() {
               flexDirection: 'column',
               gap: '0.5rem',
             }}>
-              <div style={{ color: 'var(--emerald)' }}>{stat.icon}</div>
+              <div style={{ color: 'var(--accent)' }}>{stat.icon}</div>
               <p style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1, letterSpacing: '-0.03em' }}>
                 {stat.value}
               </p>
@@ -180,33 +206,82 @@ export default function Admin() {
         {/* Main content */}
         <div style={{ flex: 1, minWidth: 0 }}>
           {/* Table header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+          <div style={{ marginBottom: '0.75rem' }}>
             <h2 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text)' }}>
               Inventario de productos
             </h2>
-            <button
-              className="btn-primary"
-              onClick={abrirNuevo}
-              style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', padding: '0.45rem 0.9rem', fontSize: '0.8rem' }}
-            >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <path d="M6 1v10M1 6h10"/>
+          </div>
+
+          {/* Filter bar */}
+          <div className={styles.filterBar}>
+            {/* Search */}
+            <div className={styles.searchWrap}>
+              <svg className={styles.searchIcon} width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+                <circle cx="6" cy="6" r="4.5"/>
+                <path d="M9.5 9.5l3 3"/>
               </svg>
-              Agregar
-            </button>
+              <input
+                type="search"
+                placeholder="Buscar por nombre o descripción…"
+                value={busqueda}
+                onChange={e => setBusqueda(e.target.value)}
+                className={styles.searchInput}
+              />
+            </div>
+
+            {/* Rubro select */}
+            <select
+              value={rubroFiltro}
+              onChange={e => handleRubroFiltro(e.target.value)}
+              className={styles.filterSelect}
+            >
+              <option value="">Todos los rubros</option>
+              {rubros.map(r => (
+                <option key={r.id} value={String(r.id)}>{r.nombre}</option>
+              ))}
+            </select>
+
+            {/* Subrubro select — only when a rubro is selected */}
+            {rubroFiltro && (
+              <select
+                value={subrubroFiltro}
+                onChange={e => setSubrubroFiltro(e.target.value)}
+                className={styles.filterSelect}
+              >
+                <option value="">Todos los subrubros</option>
+                {subrubrosDisponibles.map(s => (
+                  <option key={s.id} value={String(s.id)}>{s.nombre}</option>
+                ))}
+              </select>
+            )}
+
+            {/* Clear filters */}
+            {(busqueda || rubroFiltro) && (
+              <button
+                className={styles.clearBtn}
+                onClick={() => { setBusqueda(''); setRubroFiltro(''); setSubrubroFiltro('') }}
+              >
+                Limpiar
+              </button>
+            )}
+
+            {/* Result count */}
+            <span className={styles.resultCount}>
+              {productosFiltrados.length} de {productos.length}
+            </span>
           </div>
 
           {/* Table */}
-          <div className="v-panel">
+          <div className={styles.panel}>
             {cargando ? (
               <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="v-skeleton" style={{ height: '56px', borderRadius: '8px' }} />
+                  <div key={i} className={styles.skeleton} style={{ height: '56px', borderRadius: '8px' }} />
                 ))}
               </div>
             ) : (
               <TablaProductos
-                productos={productos}
+                productos={productosFiltrados}
                 onEditar={abrirEditar}
                 onEliminar={eliminar}
               />

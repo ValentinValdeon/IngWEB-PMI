@@ -1,15 +1,29 @@
+import { useState } from 'react'
+import styles from './Navbar.module.css'
+
 export default function Navbar({ onDescargarPdf }) {
+  const [descargando, setDescargando] = useState(false)
+
+  async function handlePdf() {
+    setDescargando(true)
+    try {
+      await onDescargarPdf()
+    } finally {
+      setDescargando(false)
+    }
+  }
+
   return (
-    <nav className="v-navbar">
+    <nav className={styles.navbar}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
 
           {/* Logo */}
-          <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <div style={{
               width: '32px', height: '32px',
-              background: 'var(--emerald)',
-              borderRadius: '8px',
+              background: 'var(--accent)',
+              borderRadius: '4px',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               flexShrink: 0,
             }}>
@@ -21,11 +35,11 @@ export default function Navbar({ onDescargarPdf }) {
               </svg>
             </div>
             <span style={{
-              fontFamily: "'Outfit', sans-serif",
-              fontSize: '1.2rem',
-              fontWeight: 700,
-              color: 'var(--text)',
-              letterSpacing: '-0.02em',
+              fontFamily: "var(--font-display)",
+              fontSize: '1.4rem',
+              fontWeight: 600,
+              color: '#F5EDD8',
+              letterSpacing: '0.02em',
             }}>
               Poli-Rubro
             </span>
@@ -34,19 +48,48 @@ export default function Navbar({ onDescargarPdf }) {
           {/* Actions */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <button
-              onClick={onDescargarPdf}
-              className="btn-outline"
-              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.5rem 1rem' }}
+              onClick={handlePdf}
+              disabled={descargando}
+              aria-label="Descargar catálogo en PDF"
+              style={{
+                display: 'flex', alignItems: 'center', gap: '0.4rem',
+                padding: '0.45rem 1rem',
+                background: 'transparent',
+                border: '1.5px solid rgba(200,152,42,0.4)',
+                borderRadius: 'var(--radius-sm)',
+                color: '#D4C4A8',
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.875rem',
+                fontWeight: 400,
+                cursor: descargando ? 'not-allowed' : 'pointer',
+                opacity: descargando ? 0.5 : 1,
+                transition: 'border-color 0.15s, color 0.15s',
+              }}
+              onMouseEnter={e => { if (!descargando) { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = '#F5EDD8' } }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(200,152,42,0.4)'; e.currentTarget.style.color = '#D4C4A8' }}
             >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden="true">
                 <path d="M7 1v8M4 6l3 3 3-3M2 11h10"/>
               </svg>
-              PDF
+              {descargando ? 'Descargando...' : 'PDF'}
             </button>
             <a
               href="/admin"
-              className="btn-primary"
-              style={{ textDecoration: 'none', padding: '0.5rem 1rem' }}
+              style={{
+                textDecoration: 'none',
+                padding: '0.45rem 1rem',
+              background: 'var(--accent)',
+              border: 'none',
+              borderRadius: 'var(--radius-sm)',
+                color: '#fff',
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                cursor: 'pointer',
+                transition: 'background 0.15s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = 'var(--accent-dark)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'var(--accent)'}
             >
               Administrar
             </a>

@@ -1,0 +1,84 @@
+/* ── Shared Buttons ─────────────────────────────────────── */
+
+.btnPrimary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 1.4rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  letter-spacing: 0.03em;
+}
+.btnPrimary:hover { background: var(--accent-dark); }
+.btnPrimary:active { transform: scale(0.98); }
+.btnPrimary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btnPrimary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btnOutline {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.2rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+.btnOutline:hover {
+  border-color: var(--accent-mid);
+  color: var(--accent-dark);
+  background: var(--accent-light);
+}
+.btnOutline:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btnDangerSoft {
+  background: transparent;
+  color: #9B2B2B;
+  border: 1px solid #E8C4C4;
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btnDangerSoft:hover { background: #FEF2F2; border-color: #F0A0A0; }
+.btnDangerSoft:focus-visible {
+  outline: 2px solid #9B2B2B;
+  outline-offset: 2px;
+}
+
+.btnEditSoft {
+  background: transparent;
+  color: var(--accent-dark);
+  border: 1px solid var(--accent-mid);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btnEditSoft:hover { background: var(--accent-light); }
+.btnEditSoft:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

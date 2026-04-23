@@ -1,3 +1,6 @@
+import styles from './TablaProductos.module.css'
+import btnStyles from '../shared/buttons.module.css'
+
 export default function TablaProductos({ productos, onEditar, onEliminar }) {
   if (productos.length === 0) {
     return (
@@ -11,7 +14,7 @@ export default function TablaProductos({ productos, onEditar, onEliminar }) {
 
   return (
     <div style={{ overflowX: 'auto' }}>
-      <table className="v-table">
+      <table className={styles.table}>
         <thead>
           <tr>
             <th>Imagen</th>
@@ -24,7 +27,9 @@ export default function TablaProductos({ productos, onEditar, onEliminar }) {
         <tbody>
           {productos.map(p => {
             const titulo = p.titulo || p.nombre || '—'
-            const imagenUrl = p.imagen_path ? `/storage/${p.imagen_path}` : null
+            const imagenUrl = p.imagen_path
+              ? (p.imagen_path.startsWith('http') ? p.imagen_path : `/storage/${p.imagen_path}`)
+              : null
             const precio = new Intl.NumberFormat('es-AR', {
               style: 'currency',
               currency: 'ARS',
@@ -74,7 +79,7 @@ export default function TablaProductos({ productos, onEditar, onEliminar }) {
                 </td>
                 <td>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                    {p.rubro && <span className="v-badge" style={{ width: 'fit-content' }}>{p.rubro.nombre}</span>}
+                    {p.rubro && <span className={styles.badge} style={{ width: 'fit-content' }}>{p.rubro.nombre}</span>}
                     {p.subrubro && (
                       <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                         {p.subrubro.nombre}
@@ -83,15 +88,15 @@ export default function TablaProductos({ productos, onEditar, onEliminar }) {
                   </div>
                 </td>
                 <td>
-                  <span className="v-price" style={{ fontSize: '1rem' }}>{precio}</span>
+                  <span className={styles.price}>{precio}</span>
                 </td>
                 <td>
                   <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-                    <button className="btn-edit-soft" onClick={() => onEditar(p)}>
+                    <button className={btnStyles.btnEditSoft} onClick={() => onEditar(p)}>
                       Editar
                     </button>
                     <button
-                      className="btn-danger-soft"
+                      className={btnStyles.btnDangerSoft}
                       onClick={() => {
                         if (window.confirm(`¿Eliminar "${titulo}"?`)) onEliminar(p.id)
                       }}

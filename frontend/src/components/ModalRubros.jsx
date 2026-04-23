@@ -8,6 +8,8 @@ import {
   updateSubrubro,
   deleteSubrubro,
 } from '../api/index'
+import styles from './ModalRubros.module.css'
+import btnStyles from '../shared/buttons.module.css'
 
 export default function ModalRubros({ onCerrar, onRubrosChanged }) {
   const [rubros, setRubros] = useState([])
@@ -92,7 +94,7 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
 
   return (
     <div
-      className="v-overlay"
+      className={styles.overlay}
       onClick={e => e.target === e.currentTarget && onCerrar()}
     >
       <div style={{
@@ -109,7 +111,7 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
       }}>
 
         {/* Top bar */}
-        <div style={{ height: '4px', background: 'var(--emerald)', flexShrink: 0 }} />
+        <div style={{ height: '4px', background: 'var(--accent)', flexShrink: 0 }} />
 
         {/* Header */}
         <div style={{
@@ -121,7 +123,7 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
           flexShrink: 0,
         }}>
           <div>
-            <p className="v-eyebrow" style={{ marginBottom: '0.15rem' }}>Catálogo</p>
+            <p className={styles.eyebrow} style={{ marginBottom: '0.15rem' }}>Catálogo</p>
             <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)', margin: 0, letterSpacing: '-0.02em' }}>
               Gestionar rubros
             </h2>
@@ -149,7 +151,7 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
 
           {cargando ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {[1,2,3].map(i => <div key={i} className="v-skeleton" style={{ height: '56px', borderRadius: '10px' }} />)}
+              {[1,2,3].map(i => <div key={i} className={styles.skeleton} style={{ height: '56px', borderRadius: '10px' }} />)}
             </div>
           ) : rubros.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
@@ -189,7 +191,7 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
                     {/* Nombre editable */}
                     {editandoRubro[rubro.id] !== undefined ? (
                       <input
-                        className="v-input"
+                        className={styles.input}
                         style={{ flex: 1, padding: '0.35rem 0.6rem', fontSize: '0.875rem', fontWeight: 500 }}
                         value={editandoRubro[rubro.id]}
                         autoFocus
@@ -211,22 +213,22 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
                     {/* Acciones rubro */}
                     {editandoRubro[rubro.id] !== undefined ? (
                       <div style={{ display: 'flex', gap: '0.4rem' }}>
-                        <button className="btn-edit-soft" style={{ padding: '0.3rem 0.7rem', fontSize: '0.75rem' }}
+                        <button className={btnStyles.btnEditSoft} style={{ padding: '0.3rem 0.7rem', fontSize: '0.75rem' }}
                           onClick={() => handleGuardarNombreRubro(rubro)}>
                           Guardar
                         </button>
-                        <button className="btn-outline" style={{ padding: '0.3rem 0.7rem', fontSize: '0.75rem' }}
+                        <button className={btnStyles.btnOutline} style={{ padding: '0.3rem 0.7rem', fontSize: '0.75rem' }}
                           onClick={() => setEditandoRubro(e => { const n = {...e}; delete n[rubro.id]; return n })}>
                           Cancelar
                         </button>
                       </div>
                     ) : (
                       <div style={{ display: 'flex', gap: '0.4rem' }}>
-                        <button className="btn-edit-soft" style={{ padding: '0.3rem 0.7rem', fontSize: '0.75rem' }}
+                        <button className={btnStyles.btnEditSoft} style={{ padding: '0.3rem 0.7rem', fontSize: '0.75rem' }}
                           onClick={() => setEditandoRubro(e => ({ ...e, [rubro.id]: rubro.nombre }))}>
                           Editar
                         </button>
-                        <button className="btn-danger-soft" style={{ padding: '0.3rem 0.7rem', fontSize: '0.75rem' }}
+                        <button className={btnStyles.btnDangerSoft} style={{ padding: '0.3rem 0.7rem', fontSize: '0.75rem' }}
                           onClick={() => handleEliminarRubro(rubro)}>
                           Eliminar
                         </button>
@@ -243,11 +245,11 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
                           padding: '0.55rem 0.9rem 0.55rem 2.5rem',
                           borderBottom: '1px solid var(--border)',
                         }}>
-                          <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--emerald-mid)', flexShrink: 0 }} />
+                          <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--accent-mid)', flexShrink: 0 }} />
 
                           {editandoSub[sub.id] !== undefined ? (
                             <input
-                              className="v-input"
+                              className={styles.input}
                               style={{ flex: 1, padding: '0.3rem 0.55rem', fontSize: '0.825rem' }}
                               value={editandoSub[sub.id]}
                               autoFocus
@@ -263,22 +265,22 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
 
                           {editandoSub[sub.id] !== undefined ? (
                             <div style={{ display: 'flex', gap: '0.35rem' }}>
-                              <button className="btn-edit-soft" style={{ padding: '0.25rem 0.6rem', fontSize: '0.72rem' }}
+                              <button className={btnStyles.btnEditSoft} style={{ padding: '0.25rem 0.6rem', fontSize: '0.72rem' }}
                                 onClick={() => handleGuardarNombreSub(sub)}>
                                 Guardar
                               </button>
-                              <button className="btn-outline" style={{ padding: '0.25rem 0.6rem', fontSize: '0.72rem' }}
+                              <button className={btnStyles.btnOutline} style={{ padding: '0.25rem 0.6rem', fontSize: '0.72rem' }}
                                 onClick={() => setEditandoSub(e => { const n = {...e}; delete n[sub.id]; return n })}>
                                 Cancelar
                               </button>
                             </div>
                           ) : (
                             <div style={{ display: 'flex', gap: '0.35rem' }}>
-                              <button className="btn-edit-soft" style={{ padding: '0.25rem 0.6rem', fontSize: '0.72rem' }}
+                              <button className={btnStyles.btnEditSoft} style={{ padding: '0.25rem 0.6rem', fontSize: '0.72rem' }}
                                 onClick={() => setEditandoSub(e => ({ ...e, [sub.id]: sub.nombre }))}>
                                 Editar
                               </button>
-                              <button className="btn-danger-soft" style={{ padding: '0.25rem 0.6rem', fontSize: '0.72rem' }}
+                              <button className={btnStyles.btnDangerSoft} style={{ padding: '0.25rem 0.6rem', fontSize: '0.72rem' }}
                                 onClick={() => handleEliminarSub(sub)}>
                                 Eliminar
                               </button>
@@ -292,7 +294,7 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
                         {agregandoSub[rubro.id] !== undefined ? (
                           <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                             <input
-                              className="v-input"
+                              className={styles.input}
                               style={{ flex: 1, padding: '0.35rem 0.6rem', fontSize: '0.825rem' }}
                               placeholder="Nombre del subrubro"
                               value={agregandoSub[rubro.id]}
@@ -303,11 +305,11 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
                                 if (e.key === 'Escape') setAgregandoSub(s => { const n = {...s}; delete n[rubro.id]; return n })
                               }}
                             />
-                            <button className="btn-primary" style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }}
+                            <button className={btnStyles.btnPrimary} style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }}
                               onClick={() => handleCrearSubrubro(rubro.id)}>
                               Agregar
                             </button>
-                            <button className="btn-outline" style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem' }}
+                            <button className={btnStyles.btnOutline} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem' }}
                               onClick={() => setAgregandoSub(s => { const n = {...s}; delete n[rubro.id]; return n })}>
                               ×
                             </button>
@@ -322,7 +324,7 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
                               cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem',
                               transition: 'all 0.15s',
                             }}
-                            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--emerald)'; e.currentTarget.style.color = 'var(--emerald)' }}
+                            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)' }}
                             onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-strong)'; e.currentTarget.style.color = 'var(--text-muted)' }}
                           >
                             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -352,7 +354,7 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
           </p>
           <form onSubmit={handleCrearRubro} style={{ display: 'flex', gap: '0.6rem' }}>
             <input
-              className="v-input"
+              className={styles.input}
               placeholder="Nombre del rubro"
               value={nuevoRubro}
               onChange={e => setNuevoRubro(e.target.value)}
@@ -360,7 +362,7 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
             />
             <button
               type="submit"
-              className="btn-primary"
+              className={btnStyles.btnPrimary}
               disabled={guardandoRubro || !nuevoRubro.trim()}
               style={{ whiteSpace: 'nowrap' }}
             >
