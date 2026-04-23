@@ -1,3 +1,158 @@
+/* ── Hero ───────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background-color: #1E1509;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.055'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  padding: 2rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* warm golden glow — top-right corner */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(154,111,46,0.18) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 1;
+  animation: v-pulse-glow 9s ease-in-out infinite;
+}
+
+/* second, subtler glow — bottom-left */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 60px;
+  left: -60px;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(200,152,42,0.08) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 1;
+  animation: v-pulse-glow 9s ease-in-out infinite;
+  animation-delay: 4s;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 680px;
+}
+
+.heroEyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8A7460;
+  margin-bottom: 1.25rem;
+  animation: v-fadeUp 0.6s ease both;
+  animation-delay: 0.05s;
+}
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: #D4C4A8;
+  margin-bottom: 1.1rem;
+  animation: v-fadeUp 0.6s ease both;
+  animation-delay: 0.15s;
+}
+
+/* golden accent on a word */
+.heroTitleAccent {
+  color: #C8982A;
+  font-style: italic;
+}
+
+.heroDivider {
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #9A6F2E, transparent);
+  margin: 0 auto 1.25rem;
+  animation: v-fadeUp 0.6s ease both;
+  animation-delay: 0.25s;
+}
+
+.heroSubtitle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 300;
+  color: #6B5C45;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+  margin-bottom: 2.25rem;
+  animation: v-fadeUp 0.6s ease both;
+  animation-delay: 0.3s;
+}
+
+.heroBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  font-family: var(--font-body);
+  font-size: 0.825rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1.5px solid #9A6F2E;
+  border-radius: 3px;
+  color: #C8982A;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  animation: v-fadeUp 0.6s ease both;
+  animation-delay: 0.4s;
+}
+.heroBtn:hover {
+  background: rgba(154,111,46,0.12);
+  border-color: #C8982A;
+  color: #D4B483;
+}
+.heroBtn:focus-visible {
+  outline: 2px solid #C8982A;
+  outline-offset: 3px;
+}
+
+/* ── Scroll indicator ───────────────────────────────────── */
+.heroScroll {
+  position: absolute;
+  bottom: 2.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  color: #6B5C45;
+  animation: v-bounce 2s ease-in-out infinite;
+  cursor: default;
+}
+
+.heroScrollLabel {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6B5C45;
+}
+
 /* ── Catalogo Page ──────────────────────────────────────── */
 .sectionTitle {
   font-size: 2rem;

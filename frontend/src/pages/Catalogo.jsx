@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import FiltroRubros from '../components/FiltroRubros'
 import FiltroSubrubros from '../components/FiltroSubrubros'
@@ -24,14 +24,58 @@ export default function Catalogo() {
 
   const [productoConsulta, setProductoConsulta] = useState(null)
   const [productoDetalle, setProductoDetalle] = useState(null)
+  const [navVisible, setNavVisible] = useState(false)
+
+  useEffect(() => {
+    function onScroll() {
+      // show navbar after scrolling past 80% of the viewport height
+      setNavVisible(window.scrollY > window.innerHeight * 0.8)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const rubroActivo = rubros.find(r => r.id === rubroSeleccionado)
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', flexDirection: 'column' }}>
-      <Navbar onDescargarPdf={bajarPdf} />
+      <Navbar onDescargarPdf={bajarPdf} visible={navVisible} />
 
-      <div style={{ display: 'flex', flex: 1 }}>
+      {/* ── Hero ─────────────────────────────────────────── */}
+      <section className={styles.hero} aria-label="Presentación">
+        <div className={styles.heroInner}>
+          <span className={styles.heroEyebrow}>Catálogo Digital</span>
+          <h1 className={styles.heroTitle}>
+            Poli&#8209;<span className={styles.heroTitleAccent}>Rubro</span>
+          </h1>
+          <div className={styles.heroDivider} aria-hidden="true" />
+          <p className={styles.heroSubtitle}>
+            Ferretería · Textil · Electrodomésticos · y más
+          </p>
+          <button
+            className={styles.heroBtn}
+            onClick={() => {
+              const el = document.getElementById('catalogo')
+              if (el) window.scrollTo({ top: el.offsetTop - 64, behavior: 'smooth' })
+            }}
+          >
+            Ver catálogo
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden="true">
+              <path d="M6.5 2v9M2 7.5l4.5 4.5 4.5-4.5"/>
+            </svg>
+          </button>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className={styles.heroScroll} aria-hidden="true">
+          <span className={styles.heroScrollLabel}>Scroll</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+            <path d="M4 6l4 4 4-4"/>
+          </svg>
+        </div>
+      </section>
+
+      <div id="catalogo" style={{ display: 'flex', flex: 1 }}>
         {/* Sidebar — pegado al borde izquierdo, debajo del header */}
         <div style={{
           width: '220px',

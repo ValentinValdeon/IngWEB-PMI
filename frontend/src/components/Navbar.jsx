@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styles from './Navbar.module.css'
 
-export default function Navbar({ onDescargarPdf }) {
+export default function Navbar({ onDescargarPdf, visible = true }) {
   const [descargando, setDescargando] = useState(false)
 
   async function handlePdf() {
@@ -14,7 +14,7 @@ export default function Navbar({ onDescargarPdf }) {
   }
 
   return (
-    <nav className={styles.navbar}>
+    <nav className={`${styles.navbar}${visible ? ` ${styles.visible}` : ''}`}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
 
