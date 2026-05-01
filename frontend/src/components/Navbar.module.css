@@ -5,15 +5,113 @@
   left: 0;
   right: 0;
   z-index: 200;
-  background: var(--navbar-bg);
-  border-bottom: 1px solid rgba(247,246,244,0.08);
-  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
-  transform: translateY(-100%);
-  opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  background: transparent;
+  border-bottom: 1px solid transparent;
 }
 
-.navbar.visible {
-  transform: translateY(0);
-  opacity: 1;
+.inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem 0 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+/* ── Logo ── */
+.logoLink {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 0;
+}
+
+.logoIcon {
+  width: 48px;
+  height: 48px;
+  background: var(--accent);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  /* opacidad dinámica via inline style */
+}
+
+/* Span invisible — solo para medir posición destino del clon */
+.logoText {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  color: transparent;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  user-select: none;
+  padding: 0;
+  line-height: 1.02;
+  white-space: nowrap;
+}
+
+/* ── Actions ── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  /* opacidad dinámica via inline style */
+}
+
+.btnPdf {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  background: transparent;
+  border: 1.5px solid rgba(200,152,42,0.4);
+  border-radius: var(--radius-sm);
+  color: #D4C4A8;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btnPdf:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btnPdf:not(:disabled):hover {
+  border-color: var(--accent);
+  color: #F5EDD8;
+}
+
+.btnAdmin {
+  text-decoration: none;
+  padding: 0.45rem 1rem;
+  background: var(--accent);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btnAdmin:hover {
+  background: var(--accent-dark);
 }

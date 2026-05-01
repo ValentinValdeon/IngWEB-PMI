@@ -82,3 +82,21 @@
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+.btnDanger {
+  background: #DC2626;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.2rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btnDanger:hover { background: #B91C1C; }
+.btnDanger:focus-visible {
+  outline: 2px solid #DC2626;
+  outline-offset: 2px;
+}

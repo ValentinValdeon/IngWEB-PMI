@@ -110,6 +110,9 @@ export default function useProductos() {
     setSubrubroSeleccionado(null)
   }
 
+  // Alias para seleccionar subrubro — usado por FiltroSubrubros en Catalogo
+  const seleccionarSubrubro = (id) => setSubrubroSeleccionado(id)
+
   // ── CRUD ─────────────────────────────────────────────────────────────────
   // Cada operación llama a la API y luego recarga los productos para que la
   // UI quede sincronizada con lo que hay en la base de datos.
@@ -162,6 +165,7 @@ export default function useProductos() {
     error,
     seleccionarRubro,
     setSubrubroSeleccionado,
+    seleccionarSubrubro,
     crear,
     actualizar,
     eliminar,

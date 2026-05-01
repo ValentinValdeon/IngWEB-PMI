@@ -16,13 +16,11 @@ export const createRubro = (nombre) => api.post('/rubros', { nombre }) // ✅ di
 
 // TODO: reemplazar cuando el backend implemente PUT /rubros/:id
 // export const updateRubro = (id, nombre) => api.put(`/rubros/${id}`, { nombre })
-export const updateRubro = (id, nombre) =>
-  Promise.resolve({ data: { id, nombre } })
+export const updateRubro = (id, nombre) => api.put(`/rubros/${id}`, { nombre })
 
 // TODO: reemplazar cuando el backend implemente DELETE /rubros/:id
 // export const deleteRubro = (id) => api.delete(`/rubros/${id}`)
-export const deleteRubro = (_id) =>
-  Promise.resolve({ data: {} })
+export const deleteRubro = (id) => api.delete(`/rubros/${id}`)
 
 // ── Subrubros ─────────────────────────────────────────────
 
@@ -31,13 +29,11 @@ export const createSubrubro = (rubroId, nombre) =>
 
 // TODO: reemplazar cuando el backend implemente PUT /subrubros/:id
 // export const updateSubrubro = (id, nombre) => api.put(`/subrubros/${id}`, { nombre })
-export const updateSubrubro = (id, nombre) =>
-  Promise.resolve({ data: { id, nombre } })
+export const updateSubrubro = (id, nombre) => api.put(`/subrubros/${id}`, { nombre })
 
 // TODO: reemplazar cuando el backend implemente DELETE /subrubros/:id
 // export const deleteSubrubro = (id) => api.delete(`/subrubros/${id}`)
-export const deleteSubrubro = (_id) =>
-  Promise.resolve({ data: {} })
+export const deleteSubrubro = (id) => api.delete(`/subrubros/${id}`)
 
 // ── Productos ─────────────────────────────────────────────
 
@@ -54,8 +50,8 @@ export const createProducto = (formData) =>
 //     headers: { 'Content-Type': 'multipart/form-data' },
 //     params: { _method: 'PUT' },
 //   })
-export const updateProducto = (_id, _formData) =>
-  Promise.resolve({ data: {} })
+export const updateProducto = (id, formData) =>
+  api.post(`/productos/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
 
 export const deleteProducto = (id) => api.delete(`/productos/${id}`) // ✅ disponible
 
@@ -63,8 +59,7 @@ export const deleteProducto = (id) => api.delete(`/productos/${id}`) // ✅ disp
 
 // TODO: reemplazar cuando el backend implemente POST /consulta
 // export const enviarConsulta = (data) => api.post('/consulta', data)
-export const enviarConsulta = (_data) =>
-  Promise.resolve({ data: { mensaje: 'Consulta recibida (mock)' } })
+export const enviarConsulta = (data) => api.post('/consulta', data)
 
 // ── PDF ───────────────────────────────────────────────────
 

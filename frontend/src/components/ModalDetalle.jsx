@@ -158,9 +158,9 @@ export default function ModalDetalle({ producto, onCerrar, onConsultar }) {
 
             {/* Title */}
             <h2 style={{
-              fontSize: '1.75rem',
+              fontSize: '2rem',
               fontWeight: 600,
-              fontFamily: 'var(--font-display)',
+              fontFamily: 'var(--font-card)',
               color: 'var(--text)',
               lineHeight: 1.2,
               letterSpacing: '0.01em',
@@ -191,7 +191,7 @@ export default function ModalDetalle({ producto, onCerrar, onConsultar }) {
               <div>
                 <p style={{
                   fontSize: '0.72rem',
-                  fontWeight: 600,
+              fontWeight: 800,
                   color: 'var(--text-muted)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.08em',

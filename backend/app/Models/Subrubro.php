@@ -14,7 +14,7 @@ class Subrubro extends Model
     public function productos()
     {
 
-        return $this->belongsTo(Producto::class);
+        return $this->hasMany(Producto::class);
     }
 
 }

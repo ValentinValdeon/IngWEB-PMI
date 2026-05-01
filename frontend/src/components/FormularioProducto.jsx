@@ -44,9 +44,9 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
     const fd = new FormData()
     fd.append('titulo', form.titulo)
     fd.append('descripcion', form.descripcion)
-    fd.append('precio', form.precio)
+    if (form.precio !== '' && form.precio !== null) fd.append('precio', form.precio)
     fd.append('rubro_id', form.rubro_id)
-    fd.append('subrubro_id', form.subrubro_id)
+    if (form.subrubro_id) fd.append('subrubro_id', form.subrubro_id)
     if (form.imagen) fd.append('imagen', form.imagen)
     onGuardar(fd, esEdicion ? productoEditar.id : undefined)
     if (!esEdicion) { setForm(empty); setFileName('') }
@@ -158,7 +158,7 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
         </div>
 
         <div>
-          <label className={styles.label}>Precio (ARS) <span style={{ color: '#DC2626' }}>*</span></label>
+          <label className={styles.label}>Precio (ARS)</label>
           <input
             className={styles.input}
             type="number"
@@ -168,7 +168,6 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
             placeholder="0.00"
             step="0.01"
             min="0"
-            required
           />
         </div>
 

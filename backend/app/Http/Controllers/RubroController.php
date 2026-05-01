@@ -15,4 +15,22 @@ class RubroController extends Controller
         $datos = $request->validate(['nombre' => 'required|string']);
         return response()->json(Rubro::create($datos));
     }
+
+    public function update(Request $request, $id) {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        $rubro = Rubro::findOrFail($id);
+        $rubro->update(['nombre' => $request->nombre]);
+
+        return response()->json($rubro);
+    }
+
+    public function destroy($id) {
+        $rubro = Rubro::findOrFail($id);
+        $rubro->delete();
+
+        return response()->json(['message' => 'Rubro eliminado']);
+    }
 }
