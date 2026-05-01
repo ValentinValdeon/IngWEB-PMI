@@ -4,8 +4,11 @@ import btnStyles from '../shared/buttons.module.css'
 
 export default function ModalDetalle({ producto, onCerrar, onConsultar }) {
   const titulo = producto.titulo || producto.nombre || 'Sin título'
-  const imagenUrl = producto.imagen_path
-    ? (producto.imagen_path.startsWith('http') ? producto.imagen_path : `/storage/${producto.imagen_path}`)
+  // El backend devuelve el campo como "ruta_imagen". Se lee también "imagen_path"
+  // por si la otra parte del equipo cambia el nombre del campo en el futuro.
+  const imagenRaw = producto.ruta_imagen || producto.imagen_path
+  const imagenUrl = imagenRaw
+    ? (imagenRaw.startsWith('http') ? imagenRaw : `/storage/${imagenRaw}`)
     : null
   const [imgError, setImgError] = useState(false)
 

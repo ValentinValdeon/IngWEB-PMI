@@ -1,0 +1,130 @@
+PENDIENTES PARA COMPLETAR EL SISTEMA - IngWEB-PMI
+=================================================
+Fecha: 01/05/2026
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BACKEND (Laravel)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[ ] PUT /rubros/{id}
+      Controlador: RubroController@update
+      Modelo: Rubro (ya existe, tiene $fillable)
+      Ruta a agregar en api.php: Route::put('/rubros/{id}', [RubroController::class, 'update']);
+      Función en frontend: updateRubro() en api/index.js (actualmente mockeada)
+
+[ ] DELETE /rubros/{id}
+      Controlador: RubroController@destroy
+      Modelo: Rubro
+      Ruta a agregar en api.php: Route::delete('/rubros/{id}', [RubroController::class, 'destroy']);
+      Función en frontend: deleteRubro() en api/index.js (actualmente mockeada)
+      Nota: la migración ya tiene onDelete('cascade') en subrubros y productos
+
+[ ] PUT /subrubros/{id}
+      Controlador: SubrubroController@update
+      Modelo: Subrubro (verificar que exista $fillable con 'nombre' y 'rubro_id')
+      Ruta a agregar en api.php: Route::put('/subrubros/{id}', [SubrubroController::class, 'update']);
+      Función en frontend: updateSubrubro() en api/index.js (actualmente mockeada)
+
+[ ] DELETE /subrubros/{id}
+      Controlador: SubrubroController@destroy
+      Ruta a agregar en api.php: Route::delete('/subrubros/{id}', [SubrubroController::class, 'destroy']);
+      Función en frontend: deleteSubrubro() en api/index.js (actualmente mockeada)
+
+[ ] PUT /productos/{id}
+      Controlador: ProductoController@update
+      Request: AlmacenarProductoRequest ya existe, revisar si aplica o hacer uno nuevo
+      Ruta a agregar en api.php: Route::post('/productos/{id}', [ProductoController::class, 'update']);
+        (usar POST con _method=PUT porque se manda FormData con imagen)
+      Función en frontend: updateProducto() en api/index.js (actualmente mockeada)
+      Nota importante: el front manda _method=PUT como query param, no como campo del form
+
+[ ] POST /consulta
+      Crear controlador: ConsultaController@store
+      Crear modelo/migración: tabla 'consultas' con campos nombre, email, mensaje, producto_id
+      Ruta a agregar en api.php: Route::post('/consulta', [ConsultaController::class, 'store']);
+      Función en frontend: enviarConsulta() en api/index.js (actualmente mockeada)
+      El front manda: { nombre, email, mensaje, producto_id }
+
+[ ] GET /catalogo/pdf
+      Crear controlador o método: genera PDF con lista de productos
+      Requiere instalar librería PDF (recomendado: barryvdh/laravel-dompdf)
+        Instalar: composer require barryvdh/laravel-dompdf
+      Ruta a agregar en api.php: Route::get('/catalogo/pdf', [ProductoController::class, 'pdf']);
+      Función en frontend: descargarPdf() en api/index.js (actualmente mockeada)
+      El front espera una respuesta de tipo blob (application/pdf)
+
+[ ] GET /productos devuelve relaciones rubro y subrubro
+      El index() actual devuelve los productos sin eager loading de rubro/subrubro.
+      El front necesita producto.rubro.nombre y producto.subrubro.nombre para mostrar
+      los badges en las tarjetas y en la tabla de admin.
+      Fix: cambiar en ProductoController@index:
+        Producto::orderBy('id','desc')->get()
+        por:
+        Producto::with('rubro','subrubro')->orderBy('id','desc')->get()
+
+[ ] CORS para producción
+      El archivo config/cors.php tiene 'allowed_origins' => ['*'] (o similar).
+      Cuando el proyecto se suba a un servidor real, cambiar '*' por la URL del frontend.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FRONTEND (React + Vite)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[ ] Descomentar endpoints reales en api/index.js
+      A medida que el backend habilite cada endpoint, descomentar la línea
+      real y borrar el mock. Están marcados con "// TODO:" en el archivo.
+      Archivo: frontend/src/api/index.js
+
+[ ] Catalogo.jsx llama a seleccionarSubrubro() pero useProductos exporta setSubrubroSeleccionado
+      En Catalogo.jsx línea 21: const { ..., seleccionarSubrubro } = useProductos()
+      En useProductos.js el hook exporta setSubrubroSeleccionado, no seleccionarSubrubro.
+      Esto hace que el filtro por subrubro en el catálogo no funcione.
+      Fix: en useProductos.js agregar:
+        const seleccionarSubrubro = (id) => setSubrubroSeleccionado(id)
+      y exportarla en el return del hook.
+
+[ ] Edición de productos no funciona (endpoint mockeado)
+      Cuando el backend implemente PUT /productos/{id}, descomentar updateProducto()
+      en api/index.js. El formulario y el modal ya están listos en el frontend.
+
+[ ] Eliminación de rubros y subrubros no funciona (endpoints mockeados)
+      ModalRubros.jsx tiene los botones "Eliminar" y "Editar" para rubros y subrubros,
+      pero las funciones en api/index.js están mockeadas. Al descomentar los endpoints
+      reales va a funcionar sin tocar el componente.
+
+[ ] Formulario de consulta funciona pero el envío es mock
+      ModalConsulta.jsx ya tiene el form completo y maneja estados enviado/error.
+      Cuando el backend implemente POST /consulta, solo hay que descomentar
+      enviarConsulta() en api/index.js.
+
+[ ] Descarga de PDF es mock
+      Navbar tiene el botón "Descargar PDF" que llama a bajarPdf() del hook.
+      La lógica de descarga en useProductos.js ya está implementada correctamente.
+      Solo falta que el backend implemente GET /catalogo/pdf y descomentar
+      descargarPdf() en api/index.js.
+
+[ ] TablaProductos muestra imagen como ruta de texto, no como miniatura
+      (verificar si esto es intencional o si hay que agregar una columna de imagen)
+
+[ ] Manejo de errores global
+      Actualmente los errores de API solo se muestran en el catálogo.
+      El panel admin no muestra ningún mensaje si una operación falla.
+      Se podría agregar un sistema de notificaciones (toast) para crear/editar/eliminar.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ESTADO ACTUAL - LO QUE YA ANDA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[x] GET /rubros - trae rubros con subrubros anidados
+[x] POST /rubros - crear rubro
+[x] POST /subrubros - crear subrubro
+[x] GET /productos - trae lista de productos
+[x] POST /productos - crear producto con imagen
+[x] DELETE /productos/{id} - eliminar producto
+[x] Imágenes visibles en el front (proxy /storage configurado en vite.config.js)
+[x] Filtro por rubro en el catálogo
+[x] Panel admin con tabla de productos
+[x] Modal de detalle de producto

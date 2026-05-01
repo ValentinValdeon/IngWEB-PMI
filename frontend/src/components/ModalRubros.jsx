@@ -31,7 +31,11 @@ export default function ModalRubros({ onCerrar, onRubrosChanged }) {
 
   async function cargar() {
     setCargando(true)
-    const { data } = await getRubros()
+    const res = await getRubros()
+    // res.data puede ser un array directo o un objeto paginado { data: [...] }.
+    // Usamos ?? para manejar ambos casos: si res.data.data existe (paginado) lo
+    // usamos; si no, usamos res.data directamente (array simple).
+    const data = res.data.data ?? res.data
     setRubros(data)
     // Expandir todos por defecto
     const exp = {}

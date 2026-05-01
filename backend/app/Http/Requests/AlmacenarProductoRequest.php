@@ -27,8 +27,16 @@ class AlmacenarProductoRequest extends FormRequest
             'descripcion' => 'nullable|string',
             'precio'      => 'required|numeric|min:0',
             'rubro_id'    => 'required|exists:rubros,id', // que exista
-            'subrubro_id' => 'required|exists:subrubros,id', // que exista
-            'imagen'      => 'required|image|mimes:jpeg,png,jpg,webp|max:2048'  // formato y tamaño max
+
+            // ORIGINAL (descomentar cuando el front siempre mande subrubro_id):
+            // 'subrubro_id' => 'required|exists:subrubros,id',
+            // TEMPORAL: subrubro es opcional porque el rubro puede no tener subrubros
+            'subrubro_id' => 'nullable|exists:subrubros,id',
+
+            // ORIGINAL (descomentar cuando el front siempre mande imagen):
+            // 'imagen' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            // TEMPORAL: imagen opcional para facilitar pruebas sin archivo
+            'imagen'      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ];
     }
 }
