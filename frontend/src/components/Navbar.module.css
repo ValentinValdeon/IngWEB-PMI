@@ -6,8 +6,8 @@
   right: 0;
   z-index: 200;
   background: var(--navbar-bg);
-  border-bottom: 2px solid var(--accent);
-  box-shadow: 0 2px 16px rgba(30,10,0,0.25);
+  border-bottom: 1px solid rgba(247,246,244,0.08);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
   transform: translateY(-100%);
   opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;

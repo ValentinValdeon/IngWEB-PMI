@@ -2,9 +2,9 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(17, 24, 39, 0.45);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 500;
   display: flex;
   align-items: center;
@@ -17,28 +17,28 @@
   display: inline-block;
   padding: 0.15rem 0.55rem;
   border-radius: 2px;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  background: var(--accent-light);
-  color: var(--accent-dark);
-  border: 1px solid var(--accent-mid);
+  background: transparent;
+  color: #999999;
+  border: none;
 }
 
 .price {
-  font-size: 1.5rem;
-  font-weight: 600;
-  font-style: italic;
+  font-size: 2.2rem;
+  font-weight: 300;
+  font-style: normal;
   font-family: var(--font-display);
-  color: var(--accent-dark);
+  color: var(--text);
   letter-spacing: -0.01em;
 }
 
 .eyebrow {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #999999;
 }

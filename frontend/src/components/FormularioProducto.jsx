@@ -7,6 +7,7 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
 
   const empty = { titulo: '', descripcion: '', precio: '', rubro_id: '', subrubro_id: '', imagen: null }
   const [form, setForm] = useState(empty)
+  const [fileName, setFileName] = useState('')
 
   useEffect(() => {
     if (productoEditar) {
@@ -30,6 +31,7 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
     const { name, value, files } = e.target
     if (name === 'imagen') {
       setForm(f => ({ ...f, imagen: files[0] }))
+      setFileName(files[0]?.name || '')
     } else if (name === 'rubro_id') {
       setForm(f => ({ ...f, rubro_id: value, subrubro_id: '' }))
     } else {
@@ -47,7 +49,7 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
     fd.append('subrubro_id', form.subrubro_id)
     if (form.imagen) fd.append('imagen', form.imagen)
     onGuardar(fd, esEdicion ? productoEditar.id : undefined)
-    if (!esEdicion) setForm(empty)
+    if (!esEdicion) { setForm(empty); setFileName('') }
   }
 
   return (
@@ -74,16 +76,41 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
       <form onSubmit={handleSubmit} style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
 
         <div>
-          <label className={styles.label}>Imagen{!esEdicion && <span style={{ color: '#DC2626' }}> *</span>}</label>
-          <input
-            type="file"
-            name="imagen"
-            accept="image/*"
-            onChange={handleChange}
-            required={!esEdicion}
-            className={styles.input}
-            style={{ cursor: 'pointer', fontSize: '0.8rem', padding: '0.5rem 0.75rem' }}
-          />
+          <label className={styles.label}>
+            Imagen{!esEdicion && <span style={{ color: '#DC2626' }}> *</span>}
+          </label>
+          <label className={`${styles.uploadZone} ${fileName ? styles.uploadSelected : ''}`}>
+            <input
+              type="file"
+              name="imagen"
+              accept="image/*"
+              onChange={handleChange}
+              required={!esEdicion}
+              style={{ display: 'none' }}
+            />
+            {fileName ? (
+              <>
+                {/* Check icon */}
+                <svg className={styles.uploadIcon} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M8 12.5l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span className={styles.uploadFilename}>{fileName}</span>
+                <span className={styles.uploadHint}>Hacé click para cambiar</span>
+              </>
+            ) : (
+              <>
+                {/* Image / mountain icon */}
+                <svg className={styles.uploadIcon} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="4" y="8" width="40" height="32" rx="4" stroke="currentColor" strokeWidth="1.8"/>
+                  <circle cx="15" cy="19" r="3.5" stroke="currentColor" strokeWidth="1.6"/>
+                  <path d="M4 34l10-10 7 7 6-6 11 9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span className={styles.uploadLabel}>Arrastrá o hacé click para subir</span>
+                <span className={styles.uploadHint}>PNG, JPG, WEBP — máx. 5 MB</span>
+              </>
+            )}
+          </label>
         </div>
 
         <div>

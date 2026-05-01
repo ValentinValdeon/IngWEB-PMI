@@ -3,8 +3,6 @@ import btnStyles from '../shared/buttons.module.css'
 
 export default function ProductoCard({ producto, onConsultar, onVerDetalle, index = 0 }) {
   const titulo = producto.titulo || producto.nombre || 'Sin título'
-  // El backend devuelve el campo como "ruta_imagen". Se lee también "imagen_path"
-  // por si la otra parte del equipo cambia el nombre del campo en el futuro.
   const imagenRaw = producto.ruta_imagen || producto.imagen_path
   const imagenUrl = imagenRaw
     ? (imagenRaw.startsWith('http') ? imagenRaw : `/storage/${imagenRaw}`)

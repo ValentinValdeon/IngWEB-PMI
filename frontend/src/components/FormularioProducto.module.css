@@ -41,3 +41,63 @@
   color: var(--text);
   margin-bottom: 0.35rem;
 }
+
+/* ── Upload zone ───────────────────────────────────────── */
+.uploadZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 1.75rem 1rem;
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.18s, background 0.18s, color 0.18s;
+  text-align: center;
+  box-sizing: border-box;
+}
+.uploadZone:hover {
+  border-color: var(--accent);
+  border-style: solid;
+  background: var(--accent-light, rgba(0,0,0,0.03));
+  color: var(--text);
+}
+.uploadSelected {
+  border-color: #16a34a;
+  border-style: solid;
+  background: #f0fdf4;
+  color: #15803d;
+}
+.uploadIcon {
+  width: 2.6rem;
+  height: 2.6rem;
+  stroke: currentColor;
+  flex-shrink: 0;
+}
+.uploadLabel {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text);
+}
+.uploadFilename {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: inherit;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.uploadHint {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+.uploadSelected .uploadHint {
+  color: #16a34a;
+  opacity: 0.75;
+}

@@ -15,9 +15,9 @@
   white-space: nowrap;
 }
 .pill:hover {
-  border-color: var(--accent-mid);
-  color: var(--accent-dark);
-  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg-white);
 }
 .pill.active {
   background: var(--accent);

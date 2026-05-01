@@ -9,8 +9,8 @@
   cursor: default;
 }
 .card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--accent-mid);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  border-color: var(--border-strong);
   transform: translateY(-2px);
 }
 
@@ -31,26 +31,26 @@
   }
 }
 
-/* Badge estilo sello */
+/* Badge sobrio sin color */
 .badge {
   display: inline-block;
   padding: 0.15rem 0.55rem;
   border-radius: 2px;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  background: var(--accent-light);
-  color: var(--accent-dark);
-  border: 1px solid var(--accent-mid);
+  background: transparent;
+  color: #999999;
+  border: none;
 }
 
-/* Precio en Cormorant italic */
+/* Precio neutro, peso ligero */
 .price {
-  font-size: 1.5rem;
-  font-weight: 600;
-  font-style: italic;
-  font-family: var(--font-display);
-  color: var(--accent-dark);
-  letter-spacing: -0.01em;
+  font-size: 1.3rem;
+  font-weight: 300;
+  font-style: normal;
+  font-family: var(--font-body);
+  color: var(--text);
+  letter-spacing: 0.02em;
 }

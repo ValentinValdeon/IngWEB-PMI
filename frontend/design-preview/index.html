@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Preview — Lujo Minimalista Europeo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── RESET / BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #F7F6F4; }
+
+    /* ─────────────────────────────────────────
+       NAVBAR
+    ───────────────────────────────────────── */
+    .nav-root {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #111111;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      border-bottom: 1px solid rgba(247,246,244,0.08);
+    }
+    .nav-logo {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #F7F6F4;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(247,246,244,0.72);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover { color: #F7F6F4; }
+    .nav-btn-pdf {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #F7F6F4;
+      background: transparent;
+      border: 1px solid rgba(247,246,244,0.6);
+      padding: 8px 20px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      display: inline-block;
+    }
+    .nav-btn-pdf:hover {
+      background: #F7F6F4;
+      color: #0F0F0F;
+      border-color: #F7F6F4;
+    }
+    @media (max-width: 640px) {
+      .nav-root { padding: 0 24px; }
+      .nav-links { gap: 20px; }
+      .nav-links li:not(:last-child) a { display: none; }
+    }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    .hero-root {
+      position: relative;
+      background: #0F0F0F;
+      height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-root::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      text-align: center;
+      padding: 0 24px;
+    }
+    .hero-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #666;
+    }
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-weight: 300;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      color: #F7F6F4;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      max-width: 820px;
+    }
+    .hero-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #888;
+      max-width: 440px;
+      line-height: 1.8;
+    }
+    .hero-cta {
+      margin-top: 12px;
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #F7F6F4;
+      background: transparent;
+      border: 1px solid rgba(247,246,244,0.7);
+      padding: 14px 36px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+    .hero-cta:hover {
+      background: #F7F6F4;
+      color: #0F0F0F;
+      border-color: #F7F6F4;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 1;
+    }
+    .hero-scroll-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #444;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, #F7F6F4, transparent);
+      animation: hero-scroll-pulse 2.2s ease-in-out infinite;
+      transform-origin: top center;
+    }
+    @keyframes hero-scroll-pulse {
+      0%   { opacity: 0; transform: scaleY(0); }
+      30%  { opacity: 1; transform: scaleY(1); }
+      70%  { opacity: 1; transform: scaleY(1); }
+      100% { opacity: 0; transform: scaleY(0); }
+    }
+
+    /* ─────────────────────────────────────────
+       CATALOG LAYOUT — SIDEBAR + GRID
+    ───────────────────────────────────────── */
+    #catalogo {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      background: #F7F6F4;
+      min-height: 100vh;
+    }
+    .sidebar-nav {
+      width: 220px;
+      min-width: 220px;
+      background: #111111;
+      padding: 2rem 1.5rem;
+      position: sticky;
+      top: 64px;
+      min-height: calc(100vh - 64px);
+      box-sizing: border-box;
+    }
+    .sidebar-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #666;
+      margin: 0 0 1.25rem 0;
+      font-weight: 500;
+    }
+    .sidebar-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .sidebar-item {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #ccc;
+      padding: 0.6rem 0;
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      padding-left: 0;
+      transition: color 0.2s;
+    }
+    .sidebar-item.sidebar-item--active {
+      color: #ffffff;
+      border-left: 2px solid #ffffff;
+      padding-left: 0.75rem;
+    }
+    .sidebar-subrubros {
+      list-style: none;
+      margin: 0.25rem 0 0.5rem 0.75rem;
+      padding: 0;
+    }
+    .sidebar-subrubro {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: #888;
+      padding: 0.35rem 0;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .sidebar-subrubro.sidebar-subrubro--active { color: #ccc; }
+
+    .catalog-grid-wrapper {
+      flex: 1;
+      padding: 2rem 2.5rem;
+      box-sizing: border-box;
+    }
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* ─────────────────────────────────────────
+       PRODUCT CARDS
+    ───────────────────────────────────────── */
+    .card {
+      background: #ffffff;
+      border: 1px solid #E0DFDC;
+      border-radius: 3px;
+      overflow: hidden;
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+      transform: translateY(-2px);
+    }
+    .card-image {
+      height: 220px;
+      background: #E8E6E1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-image svg { opacity: 0.45; }
+    .card-body {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .card-badge {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #999;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      color: #111111;
+      margin: 0 0 0.5rem 0;
+      font-weight: 400;
+      line-height: 1.3;
+    }
+    .card-description {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #666666;
+      margin: 0 0 1rem 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.55;
+      flex: 1;
+    }
+    .card-price {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 1.3rem;
+      color: #111111;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.25rem;
+    }
+    .card-footer {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: auto;
+    }
+    .card-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      padding: 0.55rem 0.9rem;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s;
+      flex: 1;
+      text-align: center;
+    }
+    .card-btn--outline {
+      background: transparent;
+      border: 1px solid #111111;
+      color: #111111;
+    }
+    .card-btn--outline:hover {
+      background: #111111;
+      color: #ffffff;
+    }
+    .card-btn--solid {
+      background: #111111;
+      border: 1px solid #111111;
+      color: #ffffff;
+    }
+    .card-btn--solid:hover {
+      background: #333333;
+      border-color: #333333;
+    }
+
+    /* ─────────────────────────────────────────
+       MODAL DETALLE
+    ───────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      animation: modal-fade-in 0.3s ease forwards;
+    }
+    .modal-overlay.modal-hidden { display: none; }
+    @keyframes modal-fade-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes modal-slide-up {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .modal-dialog {
+      position: relative;
+      background: #fff;
+      border-radius: 3px;
+      max-width: 800px;
+      width: 90vw;
+      border-top: 4px solid #111;
+      animation: modal-slide-up 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      overflow: hidden;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 32px;
+      height: 32px;
+      border: 1px solid #E0DFDC;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: 1px;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      padding: 0;
+      color: #111;
+    }
+    .modal-close:hover {
+      background: #111;
+      border-color: #111;
+      color: #fff;
+    }
+    .modal-close svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+    }
+    .modal-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 0;
+    }
+    .modal-image-col {
+      background: #E8E6E1;
+      min-height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    .modal-image-col svg { width: 72px; height: 72px; opacity: 0.28; }
+    .modal-info-col {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .modal-badge {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #999;
+      font-weight: 500;
+    }
+    .modal-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: #111;
+      margin: 0.5rem 0;
+      line-height: 1.15;
+    }
+    .modal-subrubro {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 400;
+    }
+    .modal-divider {
+      border: none;
+      border-top: 1px solid #E0DFDC;
+      margin: 1.25rem 0;
+    }
+    .modal-description {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .modal-price-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-top: 1.5rem;
+      display: block;
+    }
+    .modal-price {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: #111;
+      margin: 0.25rem 0 1.25rem;
+      line-height: 1;
+    }
+    .modal-cta {
+      width: 100%;
+      background: #111;
+      color: #fff;
+      border: none;
+      padding: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.2s ease;
+      font-weight: 400;
+      margin-top: auto;
+    }
+    .modal-cta:hover { background: #333; }
+    @media (max-width: 640px) {
+      .modal-body { grid-template-columns: 1fr; }
+      .modal-image-col { min-height: 240px; }
+      .modal-info-col { padding: 1.5rem; }
+      .modal-title { font-size: 1.6rem; }
+      .modal-price { font-size: 2rem; }
+    }
+
+    /* ─────────────────────────────────────────
+       DESIGN SYSTEM / TOKENS SECTION
+    ───────────────────────────────────────── */
+    .ds-section {
+      background: #F7F6F4;
+      padding: 4rem 2rem;
+      font-family: 'Inter', sans-serif;
+      border-top: 1px solid #E0DFDC;
+    }
+    .ds-inner { max-width: 960px; margin: 0 auto; }
+    .ds-header { text-align: center; margin-bottom: 3.5rem; }
+    .ds-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      color: #0F0F0F;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .ds-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: #888888;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin: 0;
+      font-weight: 500;
+    }
+    .ds-block { margin-bottom: 3rem; }
+    .ds-block-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #888888;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .ds-block-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E0DFDC;
+    }
+    .ds-swatches { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .ds-swatch { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+    .ds-swatch-color {
+      width: 80px;
+      height: 80px;
+      border-radius: 2px;
+      border: 1px solid rgba(0,0,0,0.08);
+      flex-shrink: 0;
+    }
+    .ds-swatch-hex {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      color: #555555;
+      text-align: center;
+      letter-spacing: 0.03em;
+      line-height: 1.3;
+    }
+    .ds-swatch-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      color: #999999;
+      text-align: center;
+    }
+    .ds-swatches--deprecated .ds-swatch-color { opacity: 0.55; }
+    .ds-swatches--deprecated .ds-swatch-hex,
+    .ds-swatches--deprecated .ds-swatch-name { opacity: 0.6; }
+    .ds-deprecated-badge {
+      display: inline-block;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #AAAAAA;
+      border: 1px solid #DDDDDD;
+      padding: 0.1rem 0.4rem;
+      border-radius: 2px;
+      margin-left: 0.5rem;
+      font-weight: 500;
+      vertical-align: middle;
+    }
+    .ds-divider { border: none; border-top: 1px solid #E0DFDC; margin: 2.5rem 0; }
+    .ds-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .ds-type-card {
+      background: #FFFFFF;
+      border: 1px solid #E0DFDC;
+      border-radius: 2px;
+      padding: 1.75rem;
+      position: relative;
+    }
+    .ds-type-card--deprecated { opacity: 0.6; }
+    .ds-type-card-badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+    }
+    .ds-type-card-badge--new { background: #0F0F0F; color: #FFFFFF; }
+    .ds-type-card-badge--old { background: #E0DFDC; color: #888888; }
+    .ds-type-stack-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #AAAAAA;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+    .ds-type-display-new {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: #0F0F0F;
+      line-height: 1.1;
+      margin: 0 0 0.5rem 0;
+    }
+    .ds-type-body-new {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #555555;
+      line-height: 1.6;
+      margin: 0.5rem 0 0 0;
+      font-weight: 400;
+    }
+    .ds-type-pair-new {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      color: #888888;
+      margin-top: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    .ds-type-display-old {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #1E1509;
+      line-height: 1.1;
+      margin: 0 0 0.5rem 0;
+    }
+    .ds-type-body-old {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      color: #5C4A2A;
+      line-height: 1.6;
+      margin: 0.5rem 0 0 0;
+      font-weight: 400;
+    }
+    .ds-type-pair-old {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      color: #9A6F2E;
+      margin-top: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    .ds-table-wrap { overflow-x: auto; }
+    .ds-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+    }
+    .ds-table thead tr { border-bottom: 2px solid #0F0F0F; }
+    .ds-table th {
+      text-align: left;
+      padding: 0.6rem 1rem 0.6rem 0;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #888888;
+      font-weight: 600;
+    }
+    .ds-table th:first-child { min-width: 160px; }
+    .ds-table td {
+      padding: 0.75rem 1rem 0.75rem 0;
+      border-bottom: 1px solid #E0DFDC;
+      color: #333333;
+      vertical-align: middle;
+      line-height: 1.4;
+    }
+    .ds-table td:first-child { font-weight: 500; color: #0F0F0F; }
+    .ds-table td:nth-child(2) { color: #9A6F2E; opacity: 0.7; }
+    .ds-table td:nth-child(3) { color: #0F0F0F; font-weight: 500; }
+    .ds-chip { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; }
+    .ds-chip-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+    @media (max-width: 600px) {
+      .ds-type-grid { grid-template-columns: 1fr; }
+      .ds-swatches { gap: 0.75rem; }
+      .ds-swatch-color { width: 60px; height: 60px; }
+    }
+
+    /* ── "Abrir Modal" demo button ── */
+    .demo-open-modal {
+      display: block;
+      margin: 2rem auto 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: #111;
+      color: #fff;
+      border: none;
+      padding: 0.75rem 2rem;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+    .demo-open-modal:hover { background: #333; }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAVBAR ══ -->
+  <nav class="nav-root" role="navigation" aria-label="Navegación principal">
+    <a href="#" class="nav-logo">Atelier PMI</a>
+    <ul class="nav-links">
+      <li><a href="#catalogo">Catálogo</a></li>
+      <li><a href="#admin">Admin</a></li>
+      <li><a href="#pdf" class="nav-btn-pdf">Descargar PDF</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section id="hero" class="hero-root" aria-label="Portada">
+    <div class="hero-inner">
+      <span class="hero-eyebrow">Marroquinería · Vitrofusión · Textil · Carpintería</span>
+      <h1 class="hero-title">Objetos hechos<br>para durar</h1>
+      <p class="hero-subtitle">Piezas artesanales de autor. Cada objeto nace de un proceso manual, pensado con precisión y construido sin apuro.</p>
+      <a href="#catalogo" class="hero-cta">Ver Catálogo</a>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span class="hero-scroll-label">Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ══ CATÁLOGO: SIDEBAR + GRID ══ -->
+  <main id="catalogo">
+    <nav class="sidebar-nav">
+      <p class="sidebar-title">Rubros</p>
+      <ul class="sidebar-list">
+        <li class="sidebar-item sidebar-item--active">Marroquinería
+          <ul class="sidebar-subrubros">
+            <li class="sidebar-subrubro sidebar-subrubro--active">Bolsos</li>
+            <li class="sidebar-subrubro">Billeteras</li>
+            <li class="sidebar-subrubro">Cinturones</li>
+          </ul>
+        </li>
+        <li class="sidebar-item">Vitrofusión</li>
+        <li class="sidebar-item">Textil</li>
+        <li class="sidebar-item">Carpintería</li>
+      </ul>
+    </nav>
+
+    <div class="catalog-grid-wrapper">
+      <div class="catalog-grid">
+
+        <article class="card" data-modal-trigger>
+          <div class="card-image">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="8" y="18" width="32" height="22" rx="2" stroke="#111" stroke-width="1.5"/>
+              <path d="M16 18V14a8 8 0 0 1 16 0v4" stroke="#111" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="24" cy="29" r="2.5" stroke="#111" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-badge">Marroquinería — Bolsos</span>
+            <h2 class="card-title">Bolso Tote Nappa</h2>
+            <p class="card-description">Cuero nappa italiano curtido al vegetal. Interior forrado en lino natural con bolsillo interno de cierre.</p>
+            <p class="card-price">$ 184.000</p>
+            <div class="card-footer">
+              <button class="card-btn card-btn--outline">Ver detalle</button>
+              <button class="card-btn card-btn--solid">Consultar</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="8" y="18" width="32" height="22" rx="2" stroke="#111" stroke-width="1.5"/>
+              <path d="M16 18V14a8 8 0 0 1 16 0v4" stroke="#111" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="24" cy="29" r="2.5" stroke="#111" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-badge">Marroquinería — Billeteras</span>
+            <h2 class="card-title">Billetera Slim Vacuno</h2>
+            <p class="card-description">Cuero vacuno plena flor, costura a mano con hilo encerado. Ocho ranuras para tarjetas y compartimento para billetes.</p>
+            <p class="card-price">$ 38.500</p>
+            <div class="card-footer">
+              <button class="card-btn card-btn--outline">Ver detalle</button>
+              <button class="card-btn card-btn--solid">Consultar</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="8" y="18" width="32" height="22" rx="2" stroke="#111" stroke-width="1.5"/>
+              <path d="M16 18V14a8 8 0 0 1 16 0v4" stroke="#111" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="24" cy="29" r="2.5" stroke="#111" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-badge">Marroquinería — Bolsos</span>
+            <h2 class="card-title">Cartera Estructurada Saffiano</h2>
+            <p class="card-description">Textura saffiano en cuero bovino. Herrajes en latón envejecido. Correa removible regulable en longitud.</p>
+            <p class="card-price">$ 215.000</p>
+            <div class="card-footer">
+              <button class="card-btn card-btn--outline">Ver detalle</button>
+              <button class="card-btn card-btn--solid">Consultar</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-image">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="8" y="18" width="32" height="22" rx="2" stroke="#111" stroke-width="1.5"/>
+              <path d="M16 18V14a8 8 0 0 1 16 0v4" stroke="#111" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="24" cy="29" r="2.5" stroke="#111" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-badge">Marroquinería — Cinturones</span>
+            <h2 class="card-title">Cinturón Reversible Milano</h2>
+            <p class="card-description">Cuero liso por un lado, grabado por el otro. Hebilla intercambiable en acero inoxidable pulido. Tallas S a XL.</p>
+            <p class="card-price">$ 52.000</p>
+            <div class="card-footer">
+              <button class="card-btn card-btn--outline">Ver detalle</button>
+              <button class="card-btn card-btn--solid">Consultar</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Botón demo para abrir modal -->
+      <button class="demo-open-modal" id="btn-open-modal">↑ Ver modal de detalle (demo)</button>
+    </div>
+  </main>
+
+  <!-- ══ MODAL DETALLE ══ -->
+  <div id="modal-detalle" class="modal-overlay modal-hidden">
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+      <button class="modal-close" id="modal-close-btn" aria-label="Cerrar">
+        <svg viewBox="0 0 14 14">
+          <line x1="1" y1="1" x2="13" y2="13"/>
+          <line x1="13" y1="1" x2="1" y2="13"/>
+        </svg>
+      </button>
+      <div class="modal-body">
+        <div class="modal-image-col">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="22" width="48" height="34" rx="2" stroke="#111" stroke-width="1.5"/>
+            <path d="M22 22V18C22 12.477 26.477 8 32 8C37.523 8 42 12.477 42 18V22" stroke="#111" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="32" cy="39" r="3" stroke="#111" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="modal-info-col">
+          <span class="modal-badge">Marroquinería</span>
+          <h2 class="modal-title" id="modal-titulo">Tote Structured</h2>
+          <span class="modal-subrubro">Bolsos</span>
+          <hr class="modal-divider">
+          <p class="modal-description">
+            Confeccionada en cuero vacuno de curtido vegetal, esta pieza atesora la sobriedad
+            de la artesanía europea. Sus líneas limpias y su interior forrado en algodón crudo
+            la convierten en un objeto de uso cotidiano y permanente.
+          </p>
+          <span class="modal-price-label">ARS</span>
+          <div class="modal-price">184.900</div>
+          <button class="modal-cta">Consultar por este producto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DESIGN SYSTEM / TOKENS ══ -->
+  <section id="design-system" class="ds-section">
+    <div class="ds-inner">
+
+      <header class="ds-header">
+        <h2 class="ds-title">Sistema de Diseño</h2>
+        <p class="ds-subtitle">Nuevo vs Anterior</p>
+      </header>
+
+      <div class="ds-block">
+        <div class="ds-block-label">Paleta Nueva</div>
+        <div class="ds-swatches">
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#0F0F0F;"></div>
+            <span class="ds-swatch-hex">#0F0F0F</span>
+            <span class="ds-swatch-name">Negro base</span>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#111111;"></div>
+            <span class="ds-swatch-hex">#111111</span>
+            <span class="ds-swatch-name">Sidebar</span>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#F7F6F4;"></div>
+            <span class="ds-swatch-hex">#F7F6F4</span>
+            <span class="ds-swatch-name">Fondo</span>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#FFFFFF;"></div>
+            <span class="ds-swatch-hex">#FFFFFF</span>
+            <span class="ds-swatch-name">Cards</span>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#E0DFDC;"></div>
+            <span class="ds-swatch-hex">#E0DFDC</span>
+            <span class="ds-swatch-name">Bordes</span>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#888888;"></div>
+            <span class="ds-swatch-hex">#888888</span>
+            <span class="ds-swatch-name">Texto muted</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="ds-divider">
+
+      <div class="ds-block">
+        <div class="ds-block-label">
+          Paleta Anterior
+          <span class="ds-deprecated-badge">Reemplazada</span>
+        </div>
+        <div class="ds-swatches ds-swatches--deprecated">
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#1E1509;"></div>
+            <span class="ds-swatch-hex">#1E1509</span>
+            <span class="ds-swatch-name">Hero bg</span>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#2C1F0E;"></div>
+            <span class="ds-swatch-hex">#2C1F0E</span>
+            <span class="ds-swatch-name">Sidebar</span>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#F9F5ED;"></div>
+            <span class="ds-swatch-hex">#F9F5ED</span>
+            <span class="ds-swatch-name">Fondo</span>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#9A6F2E;"></div>
+            <span class="ds-swatch-hex">#9A6F2E</span>
+            <span class="ds-swatch-name">Acento</span>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#F5E6C0;"></div>
+            <span class="ds-swatch-hex">#F5E6C0</span>
+            <span class="ds-swatch-name">Acento light</span>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch-color" style="background:#D4B483;"></div>
+            <span class="ds-swatch-hex">#D4B483</span>
+            <span class="ds-swatch-name">Borde</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="ds-divider">
+
+      <div class="ds-block">
+        <div class="ds-block-label">Tipografía</div>
+        <div class="ds-type-grid">
+          <div class="ds-type-card">
+            <span class="ds-type-card-badge ds-type-card-badge--new">Nuevo</span>
+            <div class="ds-type-stack-label">Display + Body</div>
+            <p class="ds-type-display-new">DM Serif Display</p>
+            <p class="ds-type-body-new">Inter para cuerpo de texto. Legibilidad neutral, peso europeo. Letra limpia sin concesiones al ornamento.</p>
+            <div class="ds-type-pair-new">DM Serif Display · Inter</div>
+          </div>
+          <div class="ds-type-card ds-type-card--deprecated">
+            <span class="ds-type-card-badge ds-type-card-badge--old">Anterior</span>
+            <div class="ds-type-stack-label">Display + Body</div>
+            <p class="ds-type-display-old">Cormorant Garamond</p>
+            <p class="ds-type-body-old">Jost para cuerpo de texto. Calidez artesanal, notas de café y madera. Trazo más orgánico y expresivo.</p>
+            <div class="ds-type-pair-old">Cormorant Garamond · Jost</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="ds-divider">
+
+      <div class="ds-block">
+        <div class="ds-block-label">Tokens Clave</div>
+        <div class="ds-table-wrap">
+          <table class="ds-table">
+            <thead>
+              <tr>
+                <th>Token</th>
+                <th>Antes</th>
+                <th>Después</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Acento principal</td>
+                <td><span class="ds-chip"><span class="ds-chip-dot" style="background:#9A6F2E;"></span>#9A6F2E — oro ámbar</span></td>
+                <td><span class="ds-chip"><span class="ds-chip-dot" style="background:#111111; border-color:#ccc;"></span>#111111 — negro</span></td>
+              </tr>
+              <tr>
+                <td>Fondo hero</td>
+                <td><span class="ds-chip"><span class="ds-chip-dot" style="background:#1E1509;"></span>#1E1509 — espresso</span></td>
+                <td><span class="ds-chip"><span class="ds-chip-dot" style="background:#0F0F0F; border-color:#ccc;"></span>#0F0F0F — negro neutro</span></td>
+              </tr>
+              <tr>
+                <td>Sombras</td>
+                <td>rgba(60, 30, 0, …) warm</td>
+                <td>rgba(0, 0, 0, …) neutro</td>
+              </tr>
+              <tr>
+                <td>Tipografía display</td>
+                <td>Cormorant Garamond</td>
+                <td>DM Serif Display</td>
+              </tr>
+              <tr>
+                <td>Indicador activo</td>
+                <td><span class="ds-chip"><span class="ds-chip-dot" style="background:#C8982A;"></span>#C8982A — dorado</span></td>
+                <td><span class="ds-chip"><span class="ds-chip-dot" style="background:#FFFFFF; border-color:#bbb;"></span>#FFFFFF — blanco</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var overlay = document.getElementById('modal-detalle');
+      var closeBtn = document.getElementById('modal-close-btn');
+      var openBtn = document.getElementById('btn-open-modal');
+
+      function closeModal() { overlay.classList.add('modal-hidden'); }
+      function openModal()  { overlay.classList.remove('modal-hidden'); }
+
+      closeBtn.addEventListener('click', closeModal);
+      openBtn.addEventListener('click', openModal);
+
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeModal();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeModal();
+      });
+
+      document.querySelectorAll('[data-modal-trigger]').forEach(function (card) {
+        card.addEventListener('click', openModal);
+        card.style.cursor = 'pointer';
+      });
+    })();
+  </script>
+
+</body>
+</html>

@@ -43,6 +43,11 @@ export default function Catalogo() {
 
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className={styles.hero} aria-label="Presentación">
+        <div className={styles.heroParticles} aria-hidden="true">
+          {Array.from({ length: 50 }).map((_, i) => (
+            <span key={i} className={styles.particle} />
+          ))}
+        </div>
         <div className={styles.heroInner}>
           <span className={styles.heroEyebrow}>Catálogo Digital</span>
           <h1 className={styles.heroTitle}>
