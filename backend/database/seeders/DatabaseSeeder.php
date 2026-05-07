@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
@@ -21,8 +22,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-
-        $this->call(RubroSeeder::class);
-        $this->call(ProductSeeder::class);
+        $this->call([
+            RubroSeeder::class,
+            ProductSeeder::class,
+            CategoriaSeeder::class,
+            CategoriaOpcionSeeder::class,
+        ]);
     }
 }

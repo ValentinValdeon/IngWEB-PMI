@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 import styles from './FormularioProducto.module.css'
 import btnStyles from '../shared/buttons.module.css'
 
@@ -8,6 +9,8 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
   const empty = { titulo: '', descripcion: '', precio: '', rubro_id: '', subrubro_id: '', imagen: null }
   const [form, setForm] = useState(empty)
   const [fileName, setFileName] = useState('')
+  const [categorias, setCategorias] = useState([])
+  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState({})
 
   useEffect(() => {
     if (productoEditar) {
@@ -19,26 +22,78 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
         subrubro_id: productoEditar.subrubro_id || '',
         imagen: null,
       })
+
+      const opts = {}
+      if (productoEditar.subrubro_id && productoEditar.categoriaOpciones?.length) {
+        const ids = productoEditar.categoriaOpciones.map(o => o.id)
+        axios.get(`/api/subrubros/${productoEditar.subrubro_id}/categorias`)
+          .then(res => {
+            setCategorias(res.data)
+            res.data.forEach(cat => {
+              const match = cat.opciones.find(o => ids.includes(o.id))
+              if (match) opts[cat.id] = match.id
+            })
+            setCategoriasSeleccionadas(opts)
+          })
+          .catch(console.error)
+      }
     } else {
       setForm(empty)
+      setCategorias([])
+      setCategoriasSeleccionadas({})
     }
   }, [productoEditar])
 
   const rubroActivo = rubros.find(r => r.id === Number(form.rubro_id))
   const subrubros = rubroActivo?.subrubros || []
 
-  function handleChange(e) {
+  async function handleChange(e) {
     const { name, value, files } = e.target
+    // ===== IMAGEN =====
     if (name === 'imagen') {
-      setForm(f => ({ ...f, imagen: files[0] }))
+      setForm(f => ({
+        ...f,
+        imagen: files[0]
+      }))
       setFileName(files[0]?.name || '')
-    } else if (name === 'rubro_id') {
-      setForm(f => ({ ...f, rubro_id: value, subrubro_id: '' }))
-    } else {
-      setForm(f => ({ ...f, [name]: value }))
+    }
+    // ===== RUBRO =====
+    else if (name === 'rubro_id') {
+      setForm(f => ({
+        ...f,
+        rubro_id: value,
+        subrubro_id: ''
+      }))
+      // limpiar categorias dinámicas
+      setCategorias([])
+      setCategoriasSeleccionadas({})
+    }
+    // ===== SUBRUBRO =====
+    else if (name === 'subrubro_id') {
+      setForm(f => ({
+        ...f,
+        subrubro_id: value
+      }))
+      try {
+        const response = await axios.get(
+          `/api/subrubros/${value}/categorias`
+        )
+        setCategorias(response.data)
+        // limpiar opciones elegidas
+        setCategoriasSeleccionadas({})
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    // ===== RESTO =====
+    else {
+      setForm(f => ({
+        ...f,
+        [name]: value
+      }))
     }
   }
-
+  
   function handleSubmit(e) {
     e.preventDefault()
     const fd = new FormData()
@@ -47,6 +102,8 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
     if (form.precio !== '' && form.precio !== null) fd.append('precio', form.precio)
     fd.append('rubro_id', form.rubro_id)
     if (form.subrubro_id) fd.append('subrubro_id', form.subrubro_id)
+    const opts = Object.values(categoriasSeleccionadas).filter(Boolean)
+    opts.forEach(id => fd.append('categoria_opciones[]', id))
     if (form.imagen) fd.append('imagen', form.imagen)
     onGuardar(fd, esEdicion ? productoEditar.id : undefined)
     if (!esEdicion) { setForm(empty); setFileName('') }
@@ -106,7 +163,7 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
                   <circle cx="15" cy="19" r="3.5" stroke="currentColor" strokeWidth="1.6"/>
                   <path d="M4 34l10-10 7 7 6-6 11 9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <span className={styles.uploadLabel}>Arrastrá o hacé click para subir</span>
+                <span className={styles.uploadLabel}>Hacé click para subir</span>
                 <span className={styles.uploadHint}>PNG, JPG, WEBP — máx. 5 MB</span>
               </>
             )}
@@ -143,6 +200,37 @@ export default function FormularioProducto({ rubros, onGuardar, productoEditar, 
             </select>
           </div>
         )}
+
+        {categorias.map(categoria => (
+          <div key={categoria.id}>
+            <label className={styles.label}>
+              {categoria.nombre}
+            </label>
+            <select
+              className={styles.input}
+              value={categoriasSeleccionadas[categoria.id] || ''}
+              onChange={(e) =>
+                setCategoriasSeleccionadas(prev => ({
+                  ...prev,
+                  [categoria.id]: e.target.value
+                }))
+              }
+            >
+              <option value="">
+                Seleccionar {categoria.nombre}
+              </option>
+              {categoria.opciones.map(opcion => (
+                <option
+                  key={opcion.id}
+                  value={opcion.id}
+                >
+                  {opcion.nombre}
+                </option>
+
+              ))}
+            </select>
+          </div>
+        ))}
 
         <div>
           <label className={styles.label}>Descripción</label>

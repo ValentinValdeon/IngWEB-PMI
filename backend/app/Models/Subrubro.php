@@ -17,4 +17,11 @@ class Subrubro extends Model
         return $this->hasMany(Producto::class);
     }
 
+    public function categorias()
+{
+    return $this->belongsToMany(
+        Categoria::class,
+        'subrubro_categoria'
+    );
+}
 }

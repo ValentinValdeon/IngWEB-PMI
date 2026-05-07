@@ -27,7 +27,12 @@ class Producto extends Model
         return $this->belongsTo(Subrubro::class);
     }
 
-
-
+    public function categoriaOpciones()
+    {
+        return $this->belongsToMany(
+            CategoriaOpcion::class,
+            'producto_categoria_opcion'
+        );
+    }
 
 }

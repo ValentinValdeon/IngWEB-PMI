@@ -16,12 +16,19 @@ class ProductoController extends Controller
         $datos = $request->validated();
         unset($datos['imagen']);
 
+        $categoriaOpciones = $datos['categoria_opciones'] ?? [];
+        unset($datos['categoria_opciones']);
+
         if ($request->hasFile('imagen')) {
             $rutaImagen = $request->file('imagen')->store('productos', 'public');
             $datos['ruta_imagen'] = $rutaImagen;
         }
 
         $producto = Producto::create($datos);
+
+        if (!empty($categoriaOpciones)) {
+            $producto->categoriaOpciones()->attach($categoriaOpciones);
+        }
 
         // json
         return response()->json([
@@ -33,7 +40,7 @@ class ProductoController extends Controller
 
     public function index(Request $request)
     {
-        $query = Producto::with('rubro', 'subrubro');
+        $query = Producto::with('rubro', 'subrubro', 'categoriaOpciones');
 
         if ($request->filled('rubro_id')) {
             $query->where('rubro_id', $request->rubro_id);
@@ -61,6 +68,7 @@ class ProductoController extends Controller
         ]);
 
         $datos = $request->only(['titulo', 'descripcion', 'precio', 'rubro_id', 'subrubro_id']);
+        $categoriaOpciones = $request->input('categoria_opciones', []);
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('productos', 'public');
@@ -68,6 +76,7 @@ class ProductoController extends Controller
         }
 
         $producto->update($datos);
+        $producto->categoriaOpciones()->sync($categoriaOpciones);
         $producto->load('rubro', 'subrubro');
 
         return response()->json($producto);

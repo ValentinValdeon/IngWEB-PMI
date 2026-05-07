@@ -3,6 +3,8 @@ import useProductos from '../hooks/useProductos'
 import TablaProductos from '../components/TablaProductos'
 import ModalFormProducto from '../components/ModalFormProducto'
 import ModalRubros from '../components/ModalRubros'
+import ModalCategorias from '../components/ModalCategorias'
+import { getCategorias } from '../api'
 import styles from './Admin.module.css'
 import btnStyles from '../shared/buttons.module.css'
 
@@ -12,6 +14,7 @@ export default function Admin() {
   const [modalProducto, setModalProducto] = useState(false)
   const [productoEditar, setProductoEditar] = useState(null)
   const [modalRubros, setModalRubros] = useState(false)
+  const [modalCategorias, setModalCategorias] = useState(false)
 
   // Filters
   const [busqueda, setBusqueda] = useState('')
@@ -116,6 +119,18 @@ export default function Admin() {
                 <path d="M10.5 8v5M8 10.5h5"/>
               </svg>
               Gestionar rubros
+            </button>
+
+            <button
+              className={btnStyles.btnOutline}
+              onClick={() => setModalCategorias(true)}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.5rem 0.9rem', fontSize: '0.825rem' }}
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+                <circle cx="7" cy="7" r="5"/>
+                <path d="M7 4v3l2 1"/>
+              </svg>
+              Gestionar categorías
             </button>
 
             <button
@@ -305,6 +320,16 @@ export default function Admin() {
         <ModalRubros
           onCerrar={() => setModalRubros(false)}
           onRubrosChanged={recargarRubros}
+        />
+      )}
+
+      {/* Modal Categorías */}
+      {modalCategorias && (
+        <ModalCategorias
+          onCerrar={() => setModalCategorias(false)}
+          onCategoriasChanged={() => {
+            getCategorias().then(res => setTodasCategorias(res.data)).catch(console.error)
+          }}
         />
       )}
     </div>
